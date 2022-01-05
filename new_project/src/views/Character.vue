@@ -1,16 +1,18 @@
 <template>
   <div class="wrapperCharacter">
-    <h2>Hi human !</h2>
+    <h2 class="titleCharacter">:-) -- Hi human ! -- (-:</h2>
     <div>
-      <p>
+      <p class="description">
         My name is : <span>{{ character.name }}</span> and I'm
-        {{ character.status }}.<br />
-        I was created on <span>{{ character.created }}.</span><br />
+        <span>{{ character.status }}</span>.<br />
+        I was created on <span>{{ character.created }}</span>.<br />
         I'm a <span>{{ character.gender }} {{ character.species }}</span> from
-        <span>{{ character.origin.name }}.</span> and you can meet me at
-        {{ character.location.name }}.
+        <span>{{ character.origin.name }}</span> and you can meet me at
+        <span>{{ character.location.name }}</span>.
       </p>
+      <router-link to="/character"><p>Return to see my friends</p></router-link>
       <div><img class="imageCharacter" :src="character.image" /></div>
+      <router-view></router-view>
     </div>
 
     <!-- <DetailsCharacter/> -->
@@ -27,19 +29,46 @@ export default {
   // components: {
   //   DetailsCharacter
   // },
-  created () {
-    this.$store.dispatch('setCurrentCharacter', this.id)
+  created() {
+    this.$store.dispatch('setCurrentCharacter', this.id);
   },
   computed: {
     character: function () {
-      console.log(this.$store.getters.getCurrentCharacter)
       return this.$store.getters.getCurrentCharacter
     }
+  },
+  mounted () {
+    this.$store.dispatch('getDatas')
   }
-  // mounted () {
-  //   this.$store.dispatch('getDatas')
-  // }
 }
 </script>
 
-<style></style>
+<style>
+
+
+.titleCharacter{
+font-size: 5em;
+background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+background-clip: border-box;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.description{
+  font-size: 2em;
+}
+
+span{
+  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+background-clip: border-box;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.imageCharacter{
+  width: 45%;
+  margin-top: 5%;
+    border-width: 20px;
+
+}
+</style>

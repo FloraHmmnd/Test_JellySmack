@@ -1,7 +1,11 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
+// import createPersistedState from "vuex-persistedstate";
+
+
 
 export default createStore({
+  // plugins: [createPersistedState()],
   state: {
     infos: [],
     characters: [],
@@ -19,11 +23,12 @@ export default createStore({
   },
 
   actions: {
-    getDatas ({ commit }) {
-        
-        async function callUrl(url) {
-        
+    getDatas ({ commit, state }) {
+      console.log("call api init")
+      console.log(state);
+      async function callUrl(url) {
             await axios.get(url).then(response => {
+              console.log("call api next")
 
                 commit('SET_INFOS', response.data.info)
                 commit('SET_CHARACTERS', response.data.results)
@@ -33,10 +38,8 @@ export default createStore({
                 }
             })
         }
-        
-        
-        let url = 'https://rickandmortyapi.com/api/character';
-        callUrl(url);
+      let url = 'https://rickandmortyapi.com/api/character';
+      callUrl(url);
     },
 
     setCurrentCharacter ({commit, state}, characterId) {
@@ -64,14 +67,9 @@ export default createStore({
     SET_CURRENT_CHARACTER (state, character) {
       state.currentCharacter = character;
     },
-    SET_CURRENT_CHARACTER_VERSION_MUTATION (state, characterId) {
-      let characterFound = {};
-      state.characters.forEach((character) => {
-        if (characterId == character.id) {
-          characterFound = character;
-        }
-      });
-      state.currentCharacter = characterFound;
-    }
+    
+    
   }
-})
+});
+
+

@@ -14,7 +14,7 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('getDatas')
+    //this.$store.dispatch('getDatas')
   }
 }
 </script>
