@@ -1,10 +1,11 @@
 <template>
-  <h1>{{ msg }}</h1>
+  <h1>RICK AND MORTY X JELLYSMACK</h1>
   <div class="wrapper">
     <div v-for="character in characters" :key="character.id">
       <h4>{{ character.name }} ({{ character.status }})</h4>
       <h5></h5>
-      <img :src="character.image" />
+      <router-link :to="{name: 'character', params: {id: character.id}}"><img :src="character.image" />
+      </router-link>
     </div>
   </div>
 </template>
@@ -12,14 +13,10 @@
 <script>
 export default {
   name: 'myStore',
-  data () {
-    return {
-      msg: 'Welcome to my Vuex Store'
-    }
-  },
+  
   computed: {
     characters () {
-      return this.$store.state.characters
+      return this.$store.getters.getCharacters;
     }
   },
   mounted () {
