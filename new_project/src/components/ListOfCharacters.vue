@@ -2,28 +2,44 @@
   <h1 class="mainTitle">RICK AND MORTY X JELLYSMACK</h1>
   <div class="searchWrapper">
     <form>
-    <input type="text" placeholder="Search Rick..." />
-    <button id="search" onclick= "search()">&#128270;GO</button>
+      <input type="text" v-model="search" placeholder="Search Rick..." />
+      <button id="search"  onclick="searchCharacters()">&#128270;GO</button>
     </form>
-    
-
   </div>
   <div class="filterWrapper">
     <form>
-      <input type="checkbox" id="alive" onclick="filteredList()" name="alive" value="alive" />
+      <input
+        type="checkbox"
+        id="alive"
+        onclick=""
+        name="alive"
+        value="alive"
+      />
       <label for="alive">Alive</label>
-      <input type="checkbox" id="dead" onclick="filteredList()" name="dead" value="dead" />
+      <input
+        type="checkbox"
+        id="dead"
+        onclick=""
+        name="dead"
+        value="dead"
+      />
       <label for="dead">Dead</label>
-      <input type="checkbox" id="unknown" onclick="filteredList()" name="unknown" value="unknown" />
+      <input
+        type="checkbox"
+        id="unknown"
+        onclick=""
+        name="unknown"
+        value="unknown"
+      />
       <label for="unknown">Unknown</label>
     </form>
   </div>
   <div class="wrapperPages">
-    <button id="goToFirstPage" onclick="">FIRST</button
-    ><button id="goToNextPage" onclick="">NEXT</button
-    ><button id="goToPrevPage" onclick="">PREV</button
-    ><button id="goToLastPage" onclick="">LAST</button>
-        {{totalPages}}
+    <button id="goToFirstPage" onclick="goToFirstPage">FIRST</button
+    ><button id="goToNextPage" onclick="goToNextPage">NEXT</button
+    ><button id="goToPrevPage" onclick="goToPrevPage">PREV</button
+    ><button id="goToLastPage" onclick="goToLastPage">LAST</button>
+    {{ totalPages }}
   </div>
   <div class="wrapperCharacters">
     <div v-for="character in characters" :key="character.id">
@@ -52,65 +68,101 @@ export default {
       currentPage: 0,
       charPerPage: 20,
       firstChar: 0,
-
+      search: "",
     }
   },
-  methods: {
-    goToFirstPage(){
-      this.currentPage = 0;
-      this.firstChar = 0;
-      this.charDisplayed(this.firstChar, this.lastChar);
 
-        },
-    goToNextPage(){
-      this.currentPage += 1;
-      this.firstchar += 20;
+  methods: {
+    goToFirstPage () {
+      this.currentPage = 0
+      this.firstChar = 0
       this.charDisplayed(this.firstChar, this.lastChar)
     },
-    goToPrevPage(){
-      this.currentPage -= 1;
-      this.firstChar -=20;
+    goToNextPage () {
+      this.currentPage += 1
+      this.firstchar += 20
       this.charDisplayed(this.firstChar, this.lastChar)
     },
-    goToLastPage(){
+    goToPrevPage () {
+      this.currentPage -= 1
+      this.firstChar -= 20
+      this.charDisplayed(this.firstChar, this.lastChar)
+    },
+    goToLastPage () {
       this.currentPage = this.totalPages;
       this.firstChar = this.listOfCharacters.length - 20;
       let restChar = this.listOfCharacters.length - this.firstChar;
-      this.charDisplayed(this.firstChar, restChar)
+      this.charDisplayed(this.firstChar, restChar);
     },
 
-    filteredList(){
+    filteredList () {
 
+      let filteredList = []
+
+      if (document.getElementById('alive').checked) {
+        this.listOfCharacters.forEach(char => {
+          if (char.status == 'Alive') {
+            filteredList.push(char);
+          }
+        })
+      } else if (document.getElementById('dead').checked) {
+        this.listOfCharacters.forEach(char => {
+          if (char.status == 'Dead') {
+            filteredList.push(char);
+          }
+        })
+      } else if (document.getElementById('unknown').checked) {
+        this.listOfCharacters.forEach(char => {
+          if (char.status == 'Unknown') {
+            filteredList.push(char);
+          }
+        })
+      } else if (
+        document.getElementById('alive').checked == false &&
+        document.getElementById('dead').checked == false &&
+        document.getElementById('unknown').checked == false
+      ) {
+        filteredList == this.listOfCharacters;
+      }
+
+      return filteredList
     },
 
-    search(){
-      
+    searchCharacters(){
+      let searchList=[];
+      this.filteredList.forEach(char => {
+        if (char.name.toLowerCase().includes(this.search.toLowerCase())){
+          searchList.push(char)
+        }    
+      });
+      return searchList;
     }
-
 
   },
 
   computed: {
+
     characters () {
-            return this.$store.getters.getCharacters
+      return this.$store.getters.getCharacters
     },
-    totalPages(){
-      let totalPages = 0;
-      if (this.listOfCharacters.lenght%this.charPerPage == 0){
-        totalPages = this.listOfCharacters.length/this.charPerPage;
-      }
-      else {
-        totalPages = Math.ceil(this.listOfCharacters.length/this.charPerPage)
+
+    totalPages () {
+      let totalPages = 0
+      if (this.listOfCharacters.lenght % this.charPerPage == 0) {
+        totalPages = this.listOfCharacters.length / this.charPerPage
+      } else {
+        totalPages = Math.ceil(this.listOfCharacters.length / this.charPerPage)
       }
       return totalPages
     },
-    lastChar(){
-      let lastChar = this.firstChar + (this.charPerPage);
-    
+
+    lastChar () {
+      let lastChar = this.firstChar + this.charPerPage
       return lastChar
     },
-    charDisplayed(first, last){
-      let charDisplayed = this.listOfCharacters.slice(first, last+1)
+
+    charDisplayed (first, last) {
+      let charDisplayed = this.listOfCharacters.slice(first, last + 1)
       return charDisplayed
     }
   },
@@ -119,6 +171,7 @@ export default {
     this.$store.dispatch('getDatas')
   }
 }
+
 </script>
 
 <style>
