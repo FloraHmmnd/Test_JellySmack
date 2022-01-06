@@ -12,8 +12,12 @@ font-family: 'Russo One', sans-serif, Helvetica, Arial, sans-serif;
 }
 
 body{
-  background-color: rgba(236, 236, 236, 0.733);
-}
+background: linear-gradient(
+    90deg,
+    rgb(214, 195, 226) 0%,
+    rgb(201, 212, 216) 50%,
+    rgb(174, 146, 250) 100%
+  );}
 
 
 </style>
