@@ -91,5 +91,7 @@ background-clip: border-box;
   border-color: rgb(61, 61, 61);
   border-radius: 30px;
   font-family: 'Russo One';
+   cursor : pointer
+
 }
 </style>

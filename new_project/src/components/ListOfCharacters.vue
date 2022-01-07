@@ -6,10 +6,10 @@
         <input
           id="searchBar"
           type="text"
-          v-model="search"
+          
           placeholder="Search Rick..."
         />
-        <button id="search" @click="searchCharacters">&#128270;GO</button>
+        <button id="search" @click="searchCharacters">GO</button>
       </form>
     </div>
     <div class="filterWrapper">
@@ -22,8 +22,16 @@
           value="alive"
         />
         <label for="alive">Alive</label>
-        <input type="checkbox" id="dead" onclick="" name="dead" value="dead" />
+
+        <input 
+          type="checkbox" 
+          id="dead" 
+          onclick="" 
+          name="dead" 
+          value="dead" 
+        />
         <label for="dead">Dead</label>
+
         <input
           type="checkbox"
           id="unknown"
@@ -90,14 +98,29 @@ export default {
   size: 100%;
 }
 
+#search {
+  border-top-right-radius: 30px 30px;
+  border-bottom-right-radius: 30px 30px;
+}
+
 #searchBar {
   font-family: 'Russo One';
   padding: 10px;
   border-width: 5px;
   border-color: rgb(61, 61, 61);
-    font-size: 15px;
-    size: 100%;
+  font-size: 15px;
+  size: 100%;
+  border-top-left-radius: 30px 30px;
+  border-bottom-left-radius: 30px 30px;
 
+}
+
+form > label {
+  font-size: 20px;
+}
+
+form > input {
+ cursor : pointer
 }
 
 button {
@@ -114,6 +137,8 @@ button {
   border-color: rgb(61, 61, 61);
   font-family: 'Russo One';
   size: 100%;
+   cursor : pointer
+
 }
 
 #goToFirstPage {
