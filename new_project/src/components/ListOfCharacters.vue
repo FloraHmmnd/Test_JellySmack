@@ -3,7 +3,7 @@
   <div class="searchWrapper">
     <form>
       <input type="text" v-model="search" placeholder="Search Rick..." />
-      <button id="search"  onclick="searchCharacters()">&#128270;GO</button>
+      <button id="search"  @click="searchCharacters">&#128270;GO</button>
     </form>
   </div>
   <div class="filterWrapper">
@@ -35,11 +35,13 @@
     </form>
   </div>
   <div class="wrapperPages">
-    <button id="goToFirstPage" onclick="goToFirstPage">FIRST</button
-    ><button id="goToNextPage" onclick="goToNextPage">NEXT</button
-    ><button id="goToPrevPage" onclick="goToPrevPage">PREV</button
-    ><button id="goToLastPage" onclick="goToLastPage">LAST</button>
-    {{ totalPages }}
+    <button id="goToFirstPage" @click="goToFirstPage">FIRST</button
+    ><button id="goToNextPage" @click="goToNextPage">NEXT</button
+    ><button id="goToPrevPage" @click="goToPrevPage">PREV</button
+    ><button id="goToLastPage" @click="goToLastPage">LAST</button>
+    total page = {{ getTotalPages }}
+    last char = {{getLastChar}}
+    first char = {{getFirstChar}}
   </div>
   <div class="wrapperCharacters">
     <div v-for="character in characters" :key="character.id">
@@ -58,17 +60,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'listOfCharacters',
-  props: [],
+  //props: ['firstChar', 'lastChar'],
 
   data () {
     return {
-      listOfCharacters: [],
-      currentPage: 0,
-      charPerPage: 20,
-      firstChar: 0,
-      search: "",
+      // listOfCharacters: [],
+      //currentPage: 0,
+      //charPerPage: 20,
+      //firstChar: 0,
+      //search: "",
     }
   },
 
@@ -90,8 +94,8 @@ export default {
     },
     goToLastPage () {
       this.currentPage = this.totalPages;
-      this.firstChar = this.listOfCharacters.length - 20;
-      let restChar = this.listOfCharacters.length - this.firstChar;
+      this.firstChar = this.characters.length - 20;
+      let restChar = this.characters.length - this.firstChar;
       this.charDisplayed(this.firstChar, restChar);
     },
 
@@ -100,19 +104,19 @@ export default {
       let filteredList = []
 
       if (document.getElementById('alive').checked) {
-        this.listOfCharacters.forEach(char => {
+        this.characters.forEach(char => {
           if (char.status == 'Alive') {
             filteredList.push(char);
           }
         })
       } else if (document.getElementById('dead').checked) {
-        this.listOfCharacters.forEach(char => {
+        this.characters.forEach(char => {
           if (char.status == 'Dead') {
             filteredList.push(char);
           }
         })
       } else if (document.getElementById('unknown').checked) {
-        this.listOfCharacters.forEach(char => {
+        this.characters.forEach(char => {
           if (char.status == 'Unknown') {
             filteredList.push(char);
           }
@@ -122,7 +126,7 @@ export default {
         document.getElementById('dead').checked == false &&
         document.getElementById('unknown').checked == false
       ) {
-        filteredList == this.listOfCharacters;
+        filteredList == this.characters;
       }
 
       return filteredList
@@ -142,34 +146,19 @@ export default {
 
   computed: {
 
-    characters () {
-      return this.$store.getters.getCharacters
-    },
+    
+      ...mapGetters(['characters', 'getTotalPages', 'getLastChar', 'getFirstChar'])
 
-    totalPages () {
-      let totalPages = 0
-      if (this.listOfCharacters.lenght % this.charPerPage == 0) {
-        totalPages = this.listOfCharacters.length / this.charPerPage
-      } else {
-        totalPages = Math.ceil(this.listOfCharacters.length / this.charPerPage)
-      }
-      return totalPages
-    },
-
-    lastChar () {
-      let lastChar = this.firstChar + this.charPerPage
-      return lastChar
-    },
-
-    charDisplayed (first, last) {
-      let charDisplayed = this.listOfCharacters.slice(first, last + 1)
-      return charDisplayed
+      
     }
-  },
+  ,
 
   mounted () {
     this.$store.dispatch('getDatas')
-  }
+  },
+
+  
+  
 }
 
 </script>

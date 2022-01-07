@@ -2,19 +2,52 @@ import { createStore } from 'vuex'
 import axios from 'axios'
 
 export default createStore({
+
   state: {
     infos: [],
     characters: [],
-    currentCharacter: {}
+    currentCharacter: {},
+    totalPages: 0,
+    currentPages: 1,
+    charPerPage: 20,
+    firstChar: 0,
+    lastChar: 0,
+    charDisplayed: []
   },
 
   getters: {
-    getCharacters(state){
-      return state.characters;
+    characters : state =>{
+      return state.characters
     },
     getCurrentCharacter(state) {
       return state.currentCharacter;
+    },
+    getTotalPages : state =>{
+      let totalPages = 0
+      if (state.characters.lenght % state.charPerPage == 0) {
+        totalPages = state.characters.length / state.charPerPage
+      } else {
+        totalPages = Math.ceil(state.characters.length / state.charPerPage)
+      }
+      return state.totalPages = totalPages
+
+    },
+
+    getLastChar : state=>{ 
+      let lastChar = state.firstChar + state.charPerPage - 1;
+      return state.lastChar = lastChar
+
+    },
+
+    getFirstChar : state =>{
+      return state.firstChar
+    },
+
+    getCharDisplayed : state =>{
+      return state.charDisplayed
     }
+
+    
       
   },
 
@@ -51,6 +84,14 @@ export default createStore({
       console.log("character found" + characterFound.name)
       commit('SET_CURRENT_CHARACTER', characterFound);
 
+    },
+
+    charDisplayed ({commit, state}, first, last) {
+      first = 0
+      last = 19
+      let charDisplayed = state.characters.slice(first, last);
+      console.log(charDisplayed)
+      commit ('SET_CHAR_DISPLAYED', charDisplayed ) 
     }
   },
 
@@ -64,14 +105,9 @@ export default createStore({
     SET_CURRENT_CHARACTER (state, character) {
       state.currentCharacter = character;
     },
-    SET_CURRENT_CHARACTER_VERSION_MUTATION (state, characterId) {
-      let characterFound = {};
-      state.characters.forEach((character) => {
-        if (characterId == character.id) {
-          characterFound = character;
-        }
-      });
-      state.currentCharacter = characterFound;
+    SET_CHAR_DISPLAYED (state, charDisplayed) {
+      state.charDisplayed = charDisplayed
     }
+
   }
 })
