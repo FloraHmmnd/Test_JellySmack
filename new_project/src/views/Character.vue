@@ -69,7 +69,16 @@ background-clip: border-box;
   width: 45%;
   margin-top: 5%;
     border-width: 20px;
-    border-color: rgb(61, 61, 61);
+    border-color: rgb(41, 41, 43);
+  border-style: solid;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.imageCharacter:hover{
+ -ms-transform: scale(1.15);
+  -webkit-transform: scale(1.15);
+  transform: scale(1.15);
 }
 
 .returnList{

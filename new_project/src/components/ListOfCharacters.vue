@@ -1,5 +1,47 @@
 <template>
   <h1 class="mainTitle">RICK AND MORTY X JELLYSMACK</h1>
+  <div id="userPreferences">
+    <div id="searchWrapper">
+      <form>
+        <input
+          id="searchBar"
+          type="text"
+          v-model="search"
+          placeholder="Search Rick..."
+        />
+        <button id="search" @click="searchCharacters">&#128270;GO</button>
+      </form>
+    </div>
+    <div class="filterWrapper">
+      <form>
+        <input
+          type="checkbox"
+          id="alive"
+          onclick=""
+          name="alive"
+          value="alive"
+        />
+        <label for="alive">Alive</label>
+        <input type="checkbox" id="dead" onclick="" name="dead" value="dead" />
+        <label for="dead">Dead</label>
+        <input
+          type="checkbox"
+          id="unknown"
+          onclick=""
+          name="unknown"
+          value="unknown"
+        />
+        <label for="unknown">Unknown</label>
+      </form>
+    </div>
+    <div class="wrapperPages">
+      <button id="goToFirstPage" @click="goToFirstPage">FIRST</button
+      ><button id="goToNextPage" @click="goToNextPage">NEXT</button
+      ><button id="goToPrevPage" @click="goToPrevPage">PREV</button
+      ><button id="goToLastPage" @click="goToLastPage">LAST</button>
+    </div>
+  </div>
+
   <div class="wrapper">
     <div v-for="character in characters" :key="character.id">
       <div class="links">
@@ -31,7 +73,59 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+#userPreferences {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 5%;
+  height: 20px;
+}
+
+#searchWrapper {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  size: 100%;
+}
+
+#searchBar {
+  font-family: 'Russo One';
+  padding: 10px;
+  border-width: 5px;
+  border-color: rgb(61, 61, 61);
+    font-size: 15px;
+    size: 100%;
+
+}
+
+button {
+  padding: 10px;
+  text-align: center;
+  background: radial-gradient(
+    circle,
+    rgba(63, 94, 251, 1) 0%,
+    rgba(252, 70, 107, 1) 100%
+  );
+  color: aliceblue;
+  font-size: 15px;
+  border-width: 5px;
+  border-color: rgb(61, 61, 61);
+  font-family: 'Russo One';
+  size: 100%;
+}
+
+#goToFirstPage {
+  border-top-left-radius: 30px 30px;
+  border-bottom-left-radius: 30px 30px;
+}
+
+#goToLastPage {
+  border-top-right-radius: 30px 30px;
+  border-bottom-right-radius: 30px 30px;
+}
+
 .wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
