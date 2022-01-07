@@ -10,7 +10,7 @@
         <span>{{ character.origin.name }}</span> and you can meet me at
         <span>{{ character.location.name }}</span>.
       </p>
-      <router-link to="/character"><button class="returnList">Return to see my friends</button></router-link>
+      <router-link to="/character"><button class="returnList">Go back to my friends</button></router-link>
       <div><img class="imageCharacter" :src="character.image" /></div>
       <router-view></router-view>
     </div>
@@ -80,6 +80,7 @@ background-clip: border-box;
     font-size: 15px;
   border-width: 5px;
   border-color: rgb(61, 61, 61);
-  font-family: Helvetica;
+  border-radius: 30px;
+  font-family: 'Russo One';
 }
 </style>
