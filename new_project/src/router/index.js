@@ -7,6 +7,7 @@ const routes = [
   {
     path: '/character',
     name: 'Home',
+    props: true,
     component: Home
   },
   

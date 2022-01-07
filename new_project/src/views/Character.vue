@@ -28,7 +28,7 @@ export default {
   //   DetailsCharacter
   // },
   created () {
-    this.$store.dispatch('setCurrentCharacter', this.id)
+    this.$store.dispatch('setCurrentCharacter', this.id);
   },
   computed: {
     character: function () {

@@ -8,11 +8,13 @@ export default createStore({
     characters: [],
     currentCharacter: {},
     totalPages: 0,
-    currentPages: 1,
+    currentPage: 1,
     charPerPage: 20,
     firstChar: 0,
     lastChar: 0,
-    charDisplayed: []
+    charDisplayed: [],
+    search: '',
+    filteredList : [],
   },
 
   getters: {
@@ -87,13 +89,14 @@ export default createStore({
     },
 
     charDisplayed ({commit, state}, first, last) {
-      first = 0
-      last = 19
+      console.log(first)
+      console.log(last)
       let charDisplayed = state.characters.slice(first, last);
       console.log(charDisplayed)
       commit ('SET_CHAR_DISPLAYED', charDisplayed ) 
     }
   },
+  
 
   mutations: {
     SET_INFOS (state, infos) {

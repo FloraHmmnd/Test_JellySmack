@@ -2,7 +2,7 @@
   <h1 class="mainTitle">RICK AND MORTY X JELLYSMACK</h1>
   <div class="searchWrapper">
     <form>
-      <input type="text" v-model="search" placeholder="Search Rick..." />
+      <input type="text"  placeholder="Search Rick..." />
       <button id="search"  @click="searchCharacters">&#128270;GO</button>
     </form>
   </div>
@@ -64,22 +64,17 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'listOfCharacters',
-  //props: ['firstChar', 'lastChar'],
+  props: ['firstChar', 'lastChar'],
 
-  data () {
-    return {
-      // listOfCharacters: [],
-      //currentPage: 0,
-      //charPerPage: 20,
-      //firstChar: 0,
-      //search: "",
-    }
+  created () {
+
+    
   },
 
   methods: {
     goToFirstPage () {
       this.currentPage = 0
-      this.firstChar = 0
+      //this.firstChar = 0
       this.charDisplayed(this.firstChar, this.lastChar)
     },
     goToNextPage () {
@@ -89,12 +84,12 @@ export default {
     },
     goToPrevPage () {
       this.currentPage -= 1
-      this.firstChar -= 20
+      //this.firstChar -= 20
       this.charDisplayed(this.firstChar, this.lastChar)
     },
     goToLastPage () {
       this.currentPage = this.totalPages;
-      this.firstChar = this.characters.length - 20;
+      //this.firstChar = this.characters.length - 20;
       let restChar = this.characters.length - this.firstChar;
       this.charDisplayed(this.firstChar, restChar);
     },
@@ -147,14 +142,16 @@ export default {
   computed: {
 
     
-      ...mapGetters(['characters', 'getTotalPages', 'getLastChar', 'getFirstChar'])
+      ...mapGetters(['characters', 'getTotalPages', 'getLastChar', 'getFirstChar', 'getCharDisplayed'])
 
       
     }
   ,
 
   mounted () {
-    this.$store.dispatch('getDatas')
+    this.$store.dispatch('getDatas'),
+    this.$store.dispatch('charDisplayed', this.firstChar, this.lastChar);
+
   },
 
   
