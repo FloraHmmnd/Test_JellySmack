@@ -7,33 +7,24 @@ export default createStore({
     infos: [],
     characters: [],
     currentCharacter: {},
-    totalPages: 0,
-    currentPage: 1,
-    charPerPage: 20,
+    // currentPage: 1,
+    // charPerPage: 20,
     firstChar: 0,
     lastChar: 0,
     charDisplayed: [],
     search: '',
+    ready: false,
     filteredList : [],
   },
 
   getters: {
-    characters : state =>{
+    characters : state => {
       return state.characters
     },
     getCurrentCharacter(state) {
       return state.currentCharacter;
     },
-    getTotalPages : state =>{
-      let totalPages = 0
-      if (state.characters.lenght % state.charPerPage == 0) {
-        totalPages = state.characters.length / state.charPerPage
-      } else {
-        totalPages = Math.ceil(state.characters.length / state.charPerPage)
-      }
-      return state.totalPages = totalPages
-
-    },
+    
 
     getLastChar : state=>{ 
       let lastChar = state.firstChar + state.charPerPage - 1;
@@ -47,15 +38,20 @@ export default createStore({
 
     getCharDisplayed : state =>{
       return state.charDisplayed
-    }
+    },
 
+
+    getCountCharacters : state =>{
+      return state.characters.length
+    }
     
       
   },
 
   actions: {
-    getDatas ({ commit }) {
-        
+    async getDatas ({ commit }) {
+        commit('RESET')
+
         async function callUrl(url) {
         
             await axios.get(url).then(response => {
@@ -69,9 +65,10 @@ export default createStore({
             })
         }
         
-        
         let url = 'https://rickandmortyapi.com/api/character';
-        callUrl(url);
+        await callUrl(url).then(() => {
+          commit('SET_READY')
+        })
     },
 
     setCurrentCharacter ({commit, state}, characterId) {
@@ -88,19 +85,29 @@ export default createStore({
 
     },
 
-    charDisplayed ({commit, state}, first, last) {
-      console.log(first)
-      console.log(last)
-      let charDisplayed = state.characters.slice(first, last);
-      console.log(charDisplayed)
+    displayCharacters ({commit, state}, params) {
+      
+      let charDisplayed = state.characters.slice(params.first, params.last);
+      console.log( charDisplayed)
+      console.log( 'first' + params.first)
+      console.log( 'last ' + params.last)
+      console.log('display characters')
       commit ('SET_CHAR_DISPLAYED', charDisplayed ) 
     }
   },
   
 
   mutations: {
+    RESET (state){
+     state.characters = []
+    },
+
     SET_INFOS (state, infos) {
       state.infos = infos
+    },
+    SET_READY (state) {
+      console.log('DATE RECEIVED')
+      state.ready = true
     },
     SET_CHARACTERS (state, characters) {
       state.characters.push(...characters);

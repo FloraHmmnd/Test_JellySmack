@@ -35,16 +35,16 @@
     </form>
   </div>
   <div class="wrapperPages">
-    <button id="goToFirstPage" @click="goToFirstPage">FIRST</button
-    ><button id="goToNextPage" @click="goToNextPage">NEXT</button
-    ><button id="goToPrevPage" @click="goToPrevPage">PREV</button
-    ><button id="goToLastPage" @click="goToLastPage">LAST</button>
-    total page = {{ getTotalPages }}
+    <button id="goToFirstPage" @click="goToFirstPage">FIRST</button>
+    <button id="goToNextPage" @click="goToNextPage">NEXT</button>
+    <button id="goToPrevPage" @click="goToPrevPage">PREV</button>
+    <button id="goToLastPage" @click="goToLastPage">LAST</button>
+    <!-- total page = {{ getTotalPages }}
     last char = {{getLastChar}}
-    first char = {{getFirstChar}}
+    first char = {{getFirstChar}} -->
   </div>
   <div class="wrapperCharacters">
-    <div v-for="character in characters" :key="character.id">
+    <div v-for="character in getCharDisplayed" :key="character.id">
       <div class="links">
         <router-link
           style="text-decoration: none; color: inherit;"
@@ -65,33 +65,83 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'listOfCharacters',
   props: ['firstChar', 'lastChar'],
-
+  data()  {
+    return {
+      charPerPage: 20,
+      currentPage : 1,
+      firstPage : 0,
+    }
+    },    
+  
   created () {
-
-    
+      console.log('l.creation je dl les data de l API');
+      this.$store.dispatch('getDatas').then(() => {
+        const parameters = {first: 0, last: this.charPerPage};
+        this.$store.dispatch('displayCharacters' , parameters);
+      });
   },
 
   methods: {
+    getTotalPages (){
+      let totalPages = 0
+
+      if (this.getCountCharacters % this.charPerPage == 0) {
+        totalPages = this.getCountCharacters / this.charPerPage
+      } else {
+        totalPages = Math.ceil(this.getCountCharacters / this.charPerPage)
+      }
+      return totalPages
+
+    },
+
     goToFirstPage () {
       this.currentPage = 0
-      //this.firstChar = 0
-      this.charDisplayed(this.firstChar, this.lastChar)
+      let first = 0;
+      let last = this.charPerPage - this.currentPage - 1
+      this.$store.dispatch('displayCharacters' , {first: first, last: last});
     },
     goToNextPage () {
-      this.currentPage += 1
-      this.firstchar += 20
-      this.charDisplayed(this.firstChar, this.lastChar)
+      if (this.currentPage == this.getTotalPages()){
+        this.currentPage = this.getTotalPages()
+      }
+      else{
+         this.currentPage += 1
+      
+      let first = this.currentPage * this.charPerPage;
+      let last = first + this.charPerPage -1;
+      this.$store.dispatch('displayCharacters' , {first: first, last: last});
+
+      }
+     
+
     },
     goToPrevPage () {
+      if (this.currentPage == 0) {
+        this.currentPage = 0
+      } 
+      else {
       this.currentPage -= 1
-      //this.firstChar -= 20
-      this.charDisplayed(this.firstChar, this.lastChar)
+      let first = this.currentPage * this.charPerPage;
+      let last = first + this.charPerPage;
+      this.$store.dispatch('displayCharacters' , {first: first, last: last});
+      }
+      
+
     },
     goToLastPage () {
-      this.currentPage = this.totalPages;
+
+      this.currentPage = this.getTotalPages()
+      console.log(this.currentPage)
+      
+      let first = this.getCountCharacters - this.charPerPage;
+
+      let last = this.getCountCharacters;
+
+      this.$store.dispatch('displayCharacters' , {first: first, last: last});
+      // this.currentPage = this.totalPages;
       //this.firstChar = this.characters.length - 20;
-      let restChar = this.characters.length - this.firstChar;
-      this.charDisplayed(this.firstChar, restChar);
+      // let restChar = this.characters.length - this.firstChar;
+      // this.charDisplayed(this.firstChar, restChar);
     },
 
     filteredList () {
@@ -140,17 +190,15 @@ export default {
   },
 
   computed: {
-
     
-      ...mapGetters(['characters', 'getTotalPages', 'getLastChar', 'getFirstChar', 'getCharDisplayed'])
-
+      ...mapGetters(['characters', 'getLastChar', 'getFirstChar', 'getCharDisplayed','getCountCharacters'])
       
     }
   ,
 
   mounted () {
-    this.$store.dispatch('getDatas'),
-    this.$store.dispatch('charDisplayed', this.firstChar, this.lastChar);
+    console.log('2.mounted, j affiche une partie des characters');
+   
 
   },
 
