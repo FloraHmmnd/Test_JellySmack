@@ -106,19 +106,26 @@ export default createStore({
 
     filteredList({commit, state}, filters) {
       let filteredList = []
-      state.allCharacters.forEach(char=> {
-        if(char.status == filters) {
-          filteredList.push(char)
-        }
-      });
+      filters.forEach(filter =>{
+        state.allCharacters.forEach(char=> {
+          if(char.status == filter) {
+            filteredList.push(char)
+          }
+        });
+      }); 
+      // state.allCharacters.forEach(char=> {
+      //   if(char.status == filters) {
+      //     filteredList.push(char)
+      //   }
+      // });
       console.log(filteredList)
       console.log(state.charDisplayed.length)
 
       commit ('SET_FILTERED_LIST', filteredList)
+    
     }
   },
   
-
   mutations: {
     RESET (state){
      state.characters = []

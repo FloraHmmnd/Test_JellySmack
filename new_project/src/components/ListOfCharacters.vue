@@ -136,15 +136,24 @@ export default {
     },
 
     applyFilteredList () {
+      let filters = [];
       if (document.getElementById('alive').checked) {
-        this.$store.dispatch('filteredList', 'Alive').then(()=> this.goToFirstPage())
+        filters.push("Alive")
+        //this.$store.dispatch('filteredList', []).then(()=> this.goToFirstPage())
       }
       if (document.getElementById('dead').checked) {
-        this.$store.dispatch('filteredList', 'Dead').then(()=> this.goToFirstPage())
+                filters.push("Dead")
+
+        //this.$store.dispatch('filteredList', 'Dead').then(()=> this.goToFirstPage())
       }
       if (document.getElementById('unknown').checked) {
-        this.$store.dispatch('filteredList', 'unknown').then(()=> this.goToFirstPage())
+                        filters.push("unknown")
+
+        
       }
+      
+      this.$store.dispatch('filteredList', filters).then(()=> this.goToFirstPage())
+
     },
     searchCharacters () {
       let searchList = []
