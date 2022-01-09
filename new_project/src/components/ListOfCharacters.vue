@@ -137,24 +137,24 @@ export default {
 
     applyFilteredList () {
       let filters = [];
+
       if (document.getElementById('alive').checked) {
         filters.push("Alive")
-        //this.$store.dispatch('filteredList', []).then(()=> this.goToFirstPage())
       }
       if (document.getElementById('dead').checked) {
                 filters.push("Dead")
-
-        //this.$store.dispatch('filteredList', 'Dead').then(()=> this.goToFirstPage())
       }
       if (document.getElementById('unknown').checked) {
-                        filters.push("unknown")
-
-        
+                        filters.push("unknown") 
+      }   
+      if (filters.length == 0) {
+        filters = ["Alive", "Dead", "unknown"]
       }
       
       this.$store.dispatch('filteredList', filters).then(()=> this.goToFirstPage())
+   
+          },
 
-    },
     searchCharacters () {
       let searchList = []
       this.filteredList.forEach(char => {

@@ -105,6 +105,7 @@ export default createStore({
     },
 
     filteredList({commit, state}, filters) {
+     
       let filteredList = []
       filters.forEach(filter =>{
         state.allCharacters.forEach(char=> {
@@ -113,11 +114,7 @@ export default createStore({
           }
         });
       }); 
-      // state.allCharacters.forEach(char=> {
-      //   if(char.status == filters) {
-      //     filteredList.push(char)
-      //   }
-      // });
+     
       console.log(filteredList)
       console.log(state.charDisplayed.length)
 
