@@ -3,9 +3,9 @@
     <h2 class="titleCharacter">:-) -- Hi human ! -- (-:</h2>
     <div>
       <p class="description">
-        My name is : <span>{{ character.name }}</span> and I'm
+        My name is <span>{{ character.name }}</span> and I'm
         <span>{{ character.status }}</span>.<br />
-        I was created on <span>{{ character.created }}</span>.<br />
+        I was created the <span>{{ character.created }}</span>.<br />
         I'm a <span>{{ character.gender }} {{ character.species }}</span> from
         <span>{{ character.origin.name }}</span> and you can meet me at
         <span>{{ character.location.name }}</span>.
