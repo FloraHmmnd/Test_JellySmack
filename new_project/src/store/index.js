@@ -7,8 +7,7 @@ export default createStore({
     infos: [],
     characters: [],
     currentCharacter: {},
-    // currentPage: 1,
-    // charPerPage: 20,
+    allCharacters: [],
     firstChar: 0,
     lastChar: 0,
     charDisplayed: [],
@@ -25,7 +24,6 @@ export default createStore({
       return state.currentCharacter;
     },
     
-
     getLastChar : state=>{ 
       let lastChar = state.firstChar + state.charPerPage - 1;
       return state.lastChar = lastChar
@@ -43,6 +41,15 @@ export default createStore({
 
     getCountCharacters : state =>{
       return state.characters.length
+    },
+
+    getCountCharDisplayed : state =>{
+      console.log(' store:countchardisplayed:' + state.charDisplayed.length)
+      return state.charDisplayed.length
+    },
+
+    getFilteredList : state =>{
+      return state.filteredList
     }
     
       
@@ -92,7 +99,22 @@ export default createStore({
       console.log( 'first' + params.first)
       console.log( 'last ' + params.last)
       console.log('display characters')
+      console.log(state.charDisplayed.length)
+
       commit ('SET_CHAR_DISPLAYED', charDisplayed ) 
+    },
+
+    filteredList({commit, state}, filters) {
+      let filteredList = []
+      state.allCharacters.forEach(char=> {
+        if(char.status == filters) {
+          filteredList.push(char)
+        }
+      });
+      console.log(filteredList)
+      console.log(state.charDisplayed.length)
+
+      commit ('SET_FILTERED_LIST', filteredList)
     }
   },
   
@@ -111,12 +133,16 @@ export default createStore({
     },
     SET_CHARACTERS (state, characters) {
       state.characters.push(...characters);
+      state.allCharacters.push(...characters)
     },
     SET_CURRENT_CHARACTER (state, character) {
       state.currentCharacter = character;
     },
     SET_CHAR_DISPLAYED (state, charDisplayed) {
       state.charDisplayed = charDisplayed
+    },
+    SET_FILTERED_LIST (state, filter) {
+     state.characters = filter
     }
 
   }

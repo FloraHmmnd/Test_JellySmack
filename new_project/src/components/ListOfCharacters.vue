@@ -2,8 +2,8 @@
   <h1 class="mainTitle">RICK AND MORTY X JELLYSMACK</h1>
   <div class="searchWrapper">
     <form>
-      <input type="text"  placeholder="Search Rick..." />
-      <button id="search"  @click="searchCharacters">&#128270;GO</button>
+      <input type="text" placeholder="Search Rick..." />
+      <button id="search" @click="searchCharacters">&#128270;GO</button>
     </form>
   </div>
   <div class="filterWrapper">
@@ -11,7 +11,7 @@
       <input
         type="checkbox"
         id="alive"
-        onclick=""
+        @click="applyFilteredList"
         name="alive"
         value="alive"
       />
@@ -19,7 +19,7 @@
       <input
         type="checkbox"
         id="dead"
-        onclick=""
+        @click="applyFilteredList"
         name="dead"
         value="dead"
       />
@@ -27,7 +27,7 @@
       <input
         type="checkbox"
         id="unknown"
-        onclick=""
+        @click="applyFilteredList"
         name="unknown"
         value="unknown"
       />
@@ -39,9 +39,7 @@
     <button id="goToNextPage" @click="goToNextPage">NEXT</button>
     <button id="goToPrevPage" @click="goToPrevPage">PREV</button>
     <button id="goToLastPage" @click="goToLastPage">LAST</button>
-    <!-- total page = {{ getTotalPages }}
-    last char = {{getLastChar}}
-    first char = {{getFirstChar}} -->
+    
   </div>
   <div class="wrapperCharacters">
     <div v-for="character in getCharDisplayed" :key="character.id">
@@ -65,24 +63,28 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'listOfCharacters',
   props: ['firstChar', 'lastChar'],
-  data()  {
+  data () {
     return {
       charPerPage: 20,
-      currentPage : 1,
-      firstPage : 0,
+      currentPage: 0,
+      firstPage: 0,
+      parameters: {
+        first: 0,
+        last: this.charPerPage
+      }
     }
-    },    
-  
+  },
+
   created () {
-      console.log('l.creation je dl les data de l API');
-      this.$store.dispatch('getDatas').then(() => {
-        const parameters = {first: 0, last: this.charPerPage};
-        this.$store.dispatch('displayCharacters' , parameters);
-      });
+    console.log('l.creation je dl les data de l API')
+    this.$store.dispatch('getDatas').then(() => {
+      const parameters = { first: 0, last: this.charPerPage }
+      this.$store.dispatch('displayCharacters', parameters)
+    })
   },
 
   methods: {
-    getTotalPages (){
+    getTotalPages () {
       let totalPages = 0
 
       if (this.getCountCharacters % this.charPerPage == 0) {
@@ -90,122 +92,89 @@ export default {
       } else {
         totalPages = Math.ceil(this.getCountCharacters / this.charPerPage)
       }
+      console.log('total pages ' + totalPages)
       return totalPages
-
     },
 
     goToFirstPage () {
       this.currentPage = 0
-      let first = 0;
+      let first = 0
       let last = this.charPerPage - this.currentPage - 1
-      this.$store.dispatch('displayCharacters' , {first: first, last: last});
+      this.$store.dispatch('displayCharacters', { first: first, last: last })
     },
+
     goToNextPage () {
-      if (this.currentPage == this.getTotalPages()){
+      if (this.currentPage == this.getTotalPages()) {
         this.currentPage = this.getTotalPages()
-      }
-      else{
-         this.currentPage += 1
-      
-      let first = this.currentPage * this.charPerPage;
-      let last = first + this.charPerPage -1;
-      this.$store.dispatch('displayCharacters' , {first: first, last: last});
+      } else {
+        this.currentPage += 1
 
+        let first = this.currentPage * this.charPerPage
+        let last = first + this.charPerPage - 1
+        this.$store.dispatch('displayCharacters', { first: first, last: last })
       }
-     
-
     },
     goToPrevPage () {
       if (this.currentPage == 0) {
         this.currentPage = 0
-      } 
-      else {
-      this.currentPage -= 1
-      let first = this.currentPage * this.charPerPage;
-      let last = first + this.charPerPage;
-      this.$store.dispatch('displayCharacters' , {first: first, last: last});
+      } else {
+        this.currentPage -= 1
+        let first = this.currentPage * this.charPerPage
+        let last = first + this.charPerPage
+        this.$store.dispatch('displayCharacters', { first: first, last: last })
       }
-      
-
     },
     goToLastPage () {
-
       this.currentPage = this.getTotalPages()
       console.log(this.currentPage)
-      
-      let first = this.getCountCharacters - this.charPerPage;
 
-      let last = this.getCountCharacters;
+      let first = this.getCountCharacters - this.charPerPage
 
-      this.$store.dispatch('displayCharacters' , {first: first, last: last});
-      // this.currentPage = this.totalPages;
-      //this.firstChar = this.characters.length - 20;
-      // let restChar = this.characters.length - this.firstChar;
-      // this.charDisplayed(this.firstChar, restChar);
+      let last = this.getCountCharacters
+
+      this.$store.dispatch('displayCharacters', { first: first, last: last })
     },
 
-    filteredList () {
-
-      let filteredList = []
-
+    applyFilteredList () {
       if (document.getElementById('alive').checked) {
-        this.characters.forEach(char => {
-          if (char.status == 'Alive') {
-            filteredList.push(char);
-          }
-        })
-      } else if (document.getElementById('dead').checked) {
-        this.characters.forEach(char => {
-          if (char.status == 'Dead') {
-            filteredList.push(char);
-          }
-        })
-      } else if (document.getElementById('unknown').checked) {
-        this.characters.forEach(char => {
-          if (char.status == 'Unknown') {
-            filteredList.push(char);
-          }
-        })
-      } else if (
-        document.getElementById('alive').checked == false &&
-        document.getElementById('dead').checked == false &&
-        document.getElementById('unknown').checked == false
-      ) {
-        filteredList == this.characters;
+        this.$store.dispatch('filteredList', 'Alive').then(()=> this.goToFirstPage())
       }
-
-      return filteredList
+      if (document.getElementById('dead').checked) {
+        this.$store.dispatch('filteredList', 'Dead').then(()=> this.goToFirstPage())
+      }
+      if (document.getElementById('unknown').checked) {
+        this.$store.dispatch('filteredList', 'unknown').then(()=> this.goToFirstPage())
+      }
     },
-
-    searchCharacters(){
-      let searchList=[];
+    searchCharacters () {
+      let searchList = []
       this.filteredList.forEach(char => {
-        if (char.name.toLowerCase().includes(this.search.toLowerCase())){
+        if (char.name.toLowerCase().includes(this.search.toLowerCase())) {
           searchList.push(char)
-        }    
-      });
-      return searchList;
+        }
+      })
+      return searchList
     }
-
   },
 
   computed: {
-    
-      ...mapGetters(['characters', 'getLastChar', 'getFirstChar', 'getCharDisplayed','getCountCharacters'])
-      
-    }
-  ,
-
+    ...mapGetters([
+      'characters',
+      'getLastChar',
+      'getFirstChar',
+      'getCharDisplayed',
+      'getCountCharDisplayed',
+      'getCountCharacters'
+    ])
+  },
   mounted () {
-    console.log('2.mounted, j affiche une partie des characters');
-   
-
+    console.log('2.mounted, j affiche une partie des characters')
   },
 
-  
-  
-}
+  updated(){
 
+  }
+}
 </script>
 
 <style>
