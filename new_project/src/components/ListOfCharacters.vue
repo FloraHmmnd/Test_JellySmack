@@ -99,7 +99,7 @@ export default {
     goToFirstPage () {
       this.currentPage = 0
       let first = 0
-      let last = this.charPerPage - this.currentPage - 1
+      let last = first + this.charPerPage
       this.$store.dispatch('displayCharacters', { first: first, last: last })
     },
 
@@ -110,7 +110,7 @@ export default {
         this.currentPage += 1
 
         let first = this.currentPage * this.charPerPage
-        let last = first + this.charPerPage - 1
+        let last = first + this.charPerPage 
         this.$store.dispatch('displayCharacters', { first: first, last: last })
       }
     },
