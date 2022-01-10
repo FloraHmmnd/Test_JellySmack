@@ -1,46 +1,50 @@
 <template>
   <h1 class="mainTitle">RICK AND MORTY X JELLYSMACK</h1>
-  <div class="searchWrapper">
-    
+  
+  <div id="userPreferences">
+
+    <div class="searchWrapper">
       <input type="text" id="searchInput" placeholder="Search Rick..." />
-      <button id="search" @click="searchCharacters">&#128270;GO</button>
-    
+      <button id="search" @click="searchCharacters">GO</button>
+    </div>
+
+    <div class="filterWrapper">
+      <form>
+        <input
+          type="checkbox"
+          id="alive"
+          @click="applyFilteredList"
+          name="alive"
+          value="alive"
+        />
+        <label for="alive">Alive</label>
+        <input
+          type="checkbox"
+          id="dead"
+          @click="applyFilteredList"
+          name="dead"
+          value="dead"
+        />
+        <label for="dead">Dead</label>
+        <input
+          type="checkbox"
+          id="unknown"
+          @click="applyFilteredList"
+          name="unknown"
+          value="unknown"
+        />
+        <label for="unknown">Unknown</label>
+      </form>
+    </div>
+
+    <div class="wrapperPages">
+      <button id="goToFirstPage" @click="goToFirstPage">FIRST</button>
+      <button id="goToNextPage" @click="goToNextPage">NEXT</button>
+      <button id="goToPrevPage" @click="goToPrevPage">PREV</button>
+      <button id="goToLastPage" @click="goToLastPage">LAST</button>
+    </div>
   </div>
-  <div class="filterWrapper">
-    <form>
-      <input
-        type="checkbox"
-        id="alive"
-        @click="applyFilteredList"
-        name="alive"
-        value="alive"
-      />
-      <label for="alive">Alive</label>
-      <input
-        type="checkbox"
-        id="dead"
-        @click="applyFilteredList"
-        name="dead"
-        value="dead"
-      />
-      <label for="dead">Dead</label>
-      <input
-        type="checkbox"
-        id="unknown"
-        @click="applyFilteredList"
-        name="unknown"
-        value="unknown"
-      />
-      <label for="unknown">Unknown</label>
-    </form>
-  </div>
-  <div class="wrapperPages">
-    <button id="goToFirstPage" @click="goToFirstPage">FIRST</button>
-    <button id="goToNextPage" @click="goToNextPage">NEXT</button>
-    <button id="goToPrevPage" @click="goToPrevPage">PREV</button>
-    <button id="goToLastPage" @click="goToLastPage">LAST</button>
-    
-  </div>
+
   <div class="wrapperCharacters">
     <div v-for="character in getCharDisplayed" :key="character.id">
       <div class="links">
@@ -48,153 +52,129 @@
           style="text-decoration: none; color: inherit;"
           :to="{ name: 'character', params: { id: character.id } }"
           ><h4>{{ character.name }} ({{ character.status }})</h4>
-          <img :src="character.image"
-        /></router-link>
+          <img id="imgChar" :src="character.image"/>
+        </router-link>
       </div>
-
       <router-view></router-view>
     </div>
   </div>
+
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 
-export default {
-  name: 'listOfCharacters',
-  props: ['firstChar', 'lastChar'],
-  data () {
-    return {
-      charPerPage: 20,
-      currentPage: 0,
-      firstPage: 0,
-      parameters: {
-        first: 0,
-        last: this.charPerPage
-      }
-    }
-  },
+  import { mapGetters } from 'vuex'
 
-  created () {
-    console.log('l.creation je dl les data de l API')
-    this.$store.dispatch('getDatas').then(() => {
-      const parameters = { first: 0, last: this.charPerPage }
-      this.$store.dispatch('displayCharacters', parameters)
-    })
-  },
-
-  methods: {
-    getTotalPages () {
-      let totalPages = 0
-
-      if (this.getCountCharacters % this.charPerPage == 0) {
-        totalPages = this.getCountCharacters / this.charPerPage
-      } else {
-        totalPages = Math.ceil(this.getCountCharacters / this.charPerPage)
-      }
-      console.log('total pages ' + totalPages)
-      return totalPages
-    },
-
-    goToFirstPage () {
-      this.currentPage = 0
-      let first = 0
-      let last = first + this.charPerPage
-      this.$store.dispatch('displayCharacters', { first: first, last: last })
-    },
-
-    goToNextPage () {
-      if (this.currentPage == this.getTotalPages()) {
-        this.currentPage = this.getTotalPages()
-      } else {
-        this.currentPage += 1
-
-        let first = this.currentPage * this.charPerPage
-        let last = first + this.charPerPage 
-        this.$store.dispatch('displayCharacters', { first: first, last: last })
+  export default {
+    name: 'listOfCharacters',
+    data () {
+      return {
+        charPerPage: 20,
+        currentPage: 0,
+        firstPage: 0,      
       }
     },
-    goToPrevPage () {
-      if (this.currentPage == 0) {
+
+    created () {
+      this.$store.dispatch('getDatas').then(() => {
+        const parameters = { first: 0, last: this.charPerPage }
+        this.$store.dispatch('displayCharacters', parameters)
+      })
+    },
+
+    methods: {
+      getTotalPages () {
+        let totalPages = 0
+        if (this.getCountCharacters % this.charPerPage == 0) {
+          totalPages = this.getCountCharacters / this.charPerPage
+        } else {
+          totalPages = Math.ceil(this.getCountCharacters / this.charPerPage)
+        }   
+        return totalPages
+      },
+
+      goToFirstPage () {
         this.currentPage = 0
-      } else {
-        this.currentPage -= 1
-        let first = this.currentPage * this.charPerPage
+        let first = 0
         let last = first + this.charPerPage
         this.$store.dispatch('displayCharacters', { first: first, last: last })
+      },
+
+      goToNextPage () {
+        if (this.currentPage == this.getTotalPages() - 1) {
+          this.currentPage = this.getTotalPages()
+        } else {
+          this.currentPage += 1
+          let first = this.currentPage * this.charPerPage
+          let last = first + this.charPerPage
+          this.$store.dispatch('displayCharacters', { first: first, last: last })
+        }
+      },
+
+      goToPrevPage () {
+        if (this.currentPage == 0) {
+          this.currentPage = 0
+        } else {
+          this.currentPage -= 1
+          let first = this.currentPage * this.charPerPage
+          let last = first + this.charPerPage
+          this.$store.dispatch('displayCharacters', { first: first, last: last })
+        }
+      },
+      goToLastPage () {
+        this.currentPage = this.getTotalPages() - 1
+        let last = this.getCountCharacters
+        let first = this.currentPage * this.charPerPage
+        this.$store.dispatch('displayCharacters', { first: first, last: last })
+      },
+
+      applyFilteredList () {
+        let filters = []
+
+        if (document.getElementById('alive').checked) {
+          filters.push('Alive')
+        }
+        if (document.getElementById('dead').checked) {
+          filters.push('Dead')
+        }
+        if (document.getElementById('unknown').checked) {
+          filters.push('unknown')
+        }
+        if (filters.length == 0) {
+          this.$store.dispatch('resetCharacters').then(() => this.goToFirstPage())
+        } else {
+          this.$store
+            .dispatch('filteredList', filters)
+            .then(() => this.goToFirstPage())
+        }
+      },
+
+      searchCharacters () {
+        let search = document.getElementById('searchInput').value
+
+        if (search != '') {
+          document.getElementById('searchInput').value = null
+          this.$store
+            .dispatch('searchList', search)
+            .then(() => this.goToFirstPage())
+        } else {
+          this.$store.dispatch('resetCharacters').then(() => this.goToFirstPage())
+        }
       }
     },
-    goToLastPage () {
-      this.currentPage = this.getTotalPages()
-      console.log(this.currentPage)
 
-      let first = this.getCountCharacters - this.charPerPage
-
-      let last = this.getCountCharacters
-
-      this.$store.dispatch('displayCharacters', { first: first, last: last })
-    },
-
-    applyFilteredList () {
-      let filters = [];
-
-      if (document.getElementById('alive').checked) {
-        filters.push("Alive")
-      }
-      if (document.getElementById('dead').checked) {
-                filters.push("Dead")
-      }
-      if (document.getElementById('unknown').checked) {
-                        filters.push("unknown") 
-      }   
-      if (filters.length == 0) {
-              this.$store.dispatch('resetCharacters').then(()=> this.goToFirstPage())
-
-      } else {
-              this.$store.dispatch('filteredList', filters).then(()=> this.goToFirstPage())
-      }
-      
-   
-          },
-
-    searchCharacters () {
-    let search = document.getElementById('searchInput').value
-    console.log("recherche =" + search)
-    if(search != "") {
-    document.getElementById('searchInput').value = null
-      this.$store.dispatch('searchList', search)
-    .then(()=> this.goToFirstPage())
+    computed: {
+      ...mapGetters([
+        'characters',
+        'getCharDisplayed',
+        'getCountCharacters'
+      ])
     }
-    else {
-          this.$store.dispatch('resetCharacters').then(()=> this.goToFirstPage())
-
-    }
-    
-
-    }
-  },
-
-  computed: {
-    ...mapGetters([
-      'characters',
-      'getLastChar',
-      'getFirstChar',
-      'getCharDisplayed',
-      'getCountCharDisplayed',
-      'getCountCharacters'
-    ])
-  },
-  mounted () {
-    console.log('2.mounted, j affiche une partie des characters')
-  },
-
-  updated(){
-
   }
-}
 </script>
 
 <style scoped>
+
 #userPreferences {
   display: flex;
   flex-direction: row;
@@ -216,7 +196,7 @@ export default {
   border-bottom-right-radius: 30px 30px;
 }
 
-#searchBar {
+#searchInput {
   font-family: 'Russo One';
   padding: 10px;
   border-width: 5px;
@@ -225,7 +205,6 @@ export default {
   size: 100%;
   border-top-left-radius: 30px 30px;
   border-bottom-left-radius: 30px 30px;
-
 }
 
 form > label {
@@ -233,7 +212,7 @@ form > label {
 }
 
 form > input {
- cursor : pointer
+  cursor: pointer;
 }
 
 button {
@@ -250,8 +229,7 @@ button {
   border-color: rgb(61, 61, 61);
   font-family: 'Russo One';
   size: 100%;
-   cursor : pointer
-
+  cursor: pointer;
 }
 
 #goToFirstPage {
@@ -264,7 +242,7 @@ button {
   border-bottom-right-radius: 30px 30px;
 }
 
-.wrapper {
+.wrapperCharacters {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-items: center;
@@ -317,4 +295,5 @@ h4:hover {
   text-decoration-color: rgb(245, 104, 11);
   color: black;
 }
+
 </style>
