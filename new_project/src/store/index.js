@@ -1,6 +1,5 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
-// import createPersistedState from "vuex-persistedstate";
 
 export default createStore({
 
