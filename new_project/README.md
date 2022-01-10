@@ -1,4 +1,12 @@
-# new_project
+# RICK AND MORTY X JELLYSMACK
+
+## About
+
+Hi ! Here is a data viz project i made to have a look on Rick and Morty characters.
+
+The call url to API is : 'https://rickandmortyapi.com/api/character'. 
+
+Enjoy :-)
 
 ## Project setup
 ```
@@ -22,3 +30,4 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
