@@ -148,10 +148,12 @@ export default {
                         filters.push("unknown") 
       }   
       if (filters.length == 0) {
-        filters = ["Alive", "Dead", "unknown"]
+              this.$store.dispatch('resetCharacters').then(()=> this.goToFirstPage())
+
+      } else {
+              this.$store.dispatch('filteredList', filters).then(()=> this.goToFirstPage())
       }
       
-      this.$store.dispatch('filteredList', filters).then(()=> this.goToFirstPage())
    
           },
 

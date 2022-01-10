@@ -65,6 +65,7 @@ export default createStore({
 
                 commit('SET_INFOS', response.data.info)
                 commit('SET_CHARACTERS', response.data.results)
+                commit('SAVE_ALL_CHARACTERS', response.data.results)
 
                 if (response.data.info.next != null) {
                     return callUrl(response.data.info.next);
@@ -120,12 +121,24 @@ export default createStore({
 
       commit ('SET_FILTERED_LIST', filteredList)
     
+    },
+
+    resetCharacters({commit}){
+      commit('RESET_CHARACTERS')
     }
   },
   
   mutations: {
     RESET (state){
      state.characters = []
+    },
+    RESET_CHARACTERS(state){
+      state.characters = state.allCharacters
+    },
+
+    SAVE_ALL_CHARACTERS(state, characters){
+      state.allCharacters.push(...characters)
+
     },
 
     SET_INFOS (state, infos) {
@@ -137,7 +150,6 @@ export default createStore({
     },
     SET_CHARACTERS (state, characters) {
       state.characters.push(...characters);
-      state.allCharacters.push(...characters)
     },
     SET_CURRENT_CHARACTER (state, character) {
       state.currentCharacter = character;
