@@ -161,6 +161,7 @@ export default {
     let search = document.getElementById('searchInput').value
     console.log("recherche =" + search)
     if(search != "") {
+    document.getElementById('searchInput').value = null
       this.$store.dispatch('searchList', search)
     .then(()=> this.goToFirstPage())
     }
