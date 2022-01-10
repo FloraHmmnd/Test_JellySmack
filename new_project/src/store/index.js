@@ -31,16 +31,14 @@ export default createStore({
   },
 
   actions: {
+    
     async getDatas ({ commit }) {
       commit('RESET')
-
       async function callUrl (url) {
         await axios.get(url).then(response => {
-
           commit('SET_INFOS', response.data.info)
           commit('SET_CHARACTERS', response.data.results)
           commit('SAVE_ALL_CHARACTERS', response.data.results)
-
           if (response.data.info.next != null) {
             return callUrl(response.data.info.next)
           }
@@ -62,16 +60,13 @@ export default createStore({
 
     displayCharacters ({ commit, state }, params) {
       let charDisplayed = state.characters.slice(params.first, params.last)
-
       commit('SET_CHAR_DISPLAYED', charDisplayed)
     },
 
     filteredList ({ commit, state }, filters) {
       let filteredList = [];
-
       filters.forEach(filter => {
         state.allCharacters.forEach(char => {
-
           if (char.status == filter) {
             filteredList.push(char)
           }
@@ -82,7 +77,6 @@ export default createStore({
 
     searchList ({ commit, state }, search) {
       let searchList = [];
-
       state.characters.forEach(char => {
         if (char.name.toLowerCase().includes(search.toLowerCase())) {
           searchList.push(char);
@@ -90,13 +84,13 @@ export default createStore({
       })
       commit('SET_FILTERED_LIST', searchList)
     },
-
     resetCharacters ({ commit }) {
       commit('RESET_CHARACTERS')
     }
   },
 
   mutations: {
+
     RESET (state) {
       state.characters = []
     },
