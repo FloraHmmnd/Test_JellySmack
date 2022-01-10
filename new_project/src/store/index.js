@@ -123,6 +123,20 @@ export default createStore({
     
     },
 
+    searchList({commit, state}, search) {
+      console.log("search = " + search)
+      let searchList = []
+      state.characters.forEach(char=>{
+        if (char.name.toLowerCase().includes(search.toLowerCase())) {
+          searchList.push(char)
+      }})
+      console.log("searchlist = " + searchList)
+
+      commit ('SET_FILTERED_LIST', searchList)
+
+    },
+
+
     resetCharacters({commit}){
       commit('RESET_CHARACTERS')
     }

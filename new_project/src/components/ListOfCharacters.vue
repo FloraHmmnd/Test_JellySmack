@@ -1,10 +1,10 @@
 <template>
   <h1 class="mainTitle">RICK AND MORTY X JELLYSMACK</h1>
   <div class="searchWrapper">
-    <form>
-      <input type="text" placeholder="Search Rick..." />
+    
+      <input type="text" id="searchInput" placeholder="Search Rick..." />
       <button id="search" @click="searchCharacters">&#128270;GO</button>
-    </form>
+    
   </div>
   <div class="filterWrapper">
     <form>
@@ -158,13 +158,18 @@ export default {
           },
 
     searchCharacters () {
-      let searchList = []
-      this.filteredList.forEach(char => {
-        if (char.name.toLowerCase().includes(this.search.toLowerCase())) {
-          searchList.push(char)
-        }
-      })
-      return searchList
+    let search = document.getElementById('searchInput').value
+    console.log("recherche =" + search)
+    if(search != "") {
+      this.$store.dispatch('searchList', search)
+    .then(()=> this.goToFirstPage())
+    }
+    else {
+          this.$store.dispatch('resetCharacters').then(()=> this.goToFirstPage())
+
+    }
+    
+
     }
   },
 
