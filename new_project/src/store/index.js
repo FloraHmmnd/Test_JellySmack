@@ -1,8 +1,10 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
+// import createPersistedState from "vuex-persistedstate";
+
+
 
 export default createStore({
-
   state: {
     infos: [],
     characters: [],
@@ -62,6 +64,7 @@ export default createStore({
         async function callUrl(url) {
         
             await axios.get(url).then(response => {
+              console.log("call api next")
 
                 commit('SET_INFOS', response.data.info)
                 commit('SET_CHARACTERS', response.data.results)
@@ -176,4 +179,6 @@ export default createStore({
     }
 
   }
-})
+});
+
+

@@ -194,8 +194,77 @@ export default {
 }
 </script>
 
-<style>
-.wrapperCharacters {
+<style scoped>
+#userPreferences {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 5%;
+  height: 20px;
+}
+
+#searchWrapper {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  size: 100%;
+}
+
+#search {
+  border-top-right-radius: 30px 30px;
+  border-bottom-right-radius: 30px 30px;
+}
+
+#searchBar {
+  font-family: 'Russo One';
+  padding: 10px;
+  border-width: 5px;
+  border-color: rgb(61, 61, 61);
+  font-size: 15px;
+  size: 100%;
+  border-top-left-radius: 30px 30px;
+  border-bottom-left-radius: 30px 30px;
+
+}
+
+form > label {
+  font-size: 20px;
+}
+
+form > input {
+ cursor : pointer
+}
+
+button {
+  padding: 10px;
+  text-align: center;
+  background: radial-gradient(
+    circle,
+    rgba(63, 94, 251, 1) 0%,
+    rgba(252, 70, 107, 1) 100%
+  );
+  color: aliceblue;
+  font-size: 15px;
+  border-width: 5px;
+  border-color: rgb(61, 61, 61);
+  font-family: 'Russo One';
+  size: 100%;
+   cursor : pointer
+
+}
+
+#goToFirstPage {
+  border-top-left-radius: 30px 30px;
+  border-bottom-left-radius: 30px 30px;
+}
+
+#goToLastPage {
+  border-top-right-radius: 30px 30px;
+  border-bottom-right-radius: 30px 30px;
+}
+
+.wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-items: center;
@@ -221,7 +290,7 @@ export default {
 
 img {
   width: 60%;
-  border-color: rgb(61, 61, 61);
+  border-color: rgb(41, 41, 43);
   border-style: solid;
   border-width: 10px;
   border-radius: 50%;

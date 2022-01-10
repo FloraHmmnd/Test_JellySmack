@@ -4,12 +4,20 @@
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+font-family: 'Russo One', sans-serif, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+ 
 }
+
+body{
+background: linear-gradient(
+    90deg,
+    rgb(214, 195, 226) 0%,
+    rgb(201, 212, 216) 50%,
+    rgb(174, 146, 250) 100%
+  );}
 
 
 </style>
