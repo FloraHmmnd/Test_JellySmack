@@ -1,4 +1,4 @@
-# new_project
+# RICK AND MORTY X JELLYSMACK
 
 ## About
 
