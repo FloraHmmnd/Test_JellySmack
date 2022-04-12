@@ -9,7 +9,6 @@
 
 <script>
 
-import { mapGetters } from 'vuex'
 
 
 export default {
@@ -66,12 +65,8 @@ export default {
             let first = this.currentPage * this.charPerPage;
             this.$store.dispatch("displayCharacters", { first: first, last: last });
         }
-    },
-    computed: {
-        ...mapGetters([
-            "getCountCharacters"
-        ])
     }
+    
     }
 
 </script>

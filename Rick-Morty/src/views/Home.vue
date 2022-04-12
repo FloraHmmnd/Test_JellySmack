@@ -9,6 +9,7 @@
 import ListOfCharacters from '@/components/ListOfCharacters.vue'
 
 
+
 </script> 
 
 <style scoped>

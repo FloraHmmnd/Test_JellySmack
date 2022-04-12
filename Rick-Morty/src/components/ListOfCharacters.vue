@@ -13,7 +13,6 @@
           ><h4>{{ character.name }} ({{ character.status }})</h4>
           <img id="imgChar" :src="character.image"/>
         </router-link>
-        <CharacterCard></CharacterCard>
       </div>
     </div>
   </div>
@@ -24,7 +23,6 @@
 
 import Filters from './Filters.vue'
 import Pagination from './Pagination.vue'
-import CharacterCard from './CharacterCard.vue'
 import {useNewStore} from "@/store/newStore.js"
 import { onMounted } from 'vue';
 
@@ -33,7 +31,9 @@ const newStore = useNewStore()
 onMounted(() => {
   newStore.getDatas(newStore.url);
 })
-
+const props = defineProps({
+  
+})
 </script>
 
 

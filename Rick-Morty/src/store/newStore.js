@@ -5,38 +5,29 @@ import axios from 'axios'
 export const useNewStore = defineStore({
   id: 'newStore',
   state: () => ({
+    url: 'https://rickandmortyapi.com/api/character',
     infos: [],
     characters: [],
     currentCharacter: {},
     allCharacters: [],
-    charDisplayed: []
+    charactersDisplayed: []
   }),
 
   getters: {
-    // getCharacters(state) {
-    //     return state.characters
-    // }, 
-    // getCurrentCharacter(state) {
-    //     return state.currentCharacter
-    // },     
-    // getCharDisplayed(state) {
-    //     return state.charDisplayed
-    // }, 
     getCountCharacters(state){
         return state.characters.length
     }
   },
 
   actions: {
-    async getDatas () {
-        let url = 'https://rickandmortyapi.com/api/character'
+    async getDatas (url) {
         try {
           const response = await axios.get(url)
           this.infos = response.data.info
           this.characters = response.data.results
         }
         catch {
-          console.error("fecth error")
+          console.error("fetch error")
         }           
     },
     setCurrentCharacter ( characterId) {
