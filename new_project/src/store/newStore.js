@@ -13,35 +13,31 @@ export const useNewStore = defineStore({
   }),
 
   getters: {
-    getCharacters(state) {
-        return state.characters
-    }, 
-    getCurrentCharacter() {
-        return this.currentCharacter
-    },     
-    getCharDisplayed() {
-        return this.charDisplayed
-    }, 
-    getCountCharacters(){
-        return this.characters.length
+    // getCharacters(state) {
+    //     return state.characters
+    // }, 
+    // getCurrentCharacter(state) {
+    //     return state.currentCharacter
+    // },     
+    // getCharDisplayed(state) {
+    //     return state.charDisplayed
+    // }, 
+    getCountCharacters(state){
+        return state.characters.length
     }
   },
 
   actions: {
     async getDatas () {
-        this.characters = []
-        async function callUrl (url) {
-          await axios.get(url).then(response => {
-                this.infos = response.data.info
-                this.characters.push(...response.data.results)
-                this.allCharacters.push(...response.data.result)
-                if (response.data.info.next != null) {
-                    return callUrl(response.data.info.next)
-                  }                            
-          })
-        }
         let url = 'https://rickandmortyapi.com/api/character'
-        await callUrl(url).then(() => {})
+        try {
+          const response = await axios.get(url)
+          this.infos = response.data.info
+          this.characters = response.data.results
+        }
+        catch {
+          console.error("fecth error")
+        }           
     },
     setCurrentCharacter ( characterId) {
         let characterFound = {}
