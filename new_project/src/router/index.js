@@ -5,11 +5,18 @@ import Character from '../views/Character.vue'
 
 const routes = [
   {
-    path: '/character',
+    path: '/',
+    redirect: {name : 'Home'},
+    
+  },
+
+  {
+    path: '/characters',
     name: 'Home',
     props: true,
     component: Home
   },
+
   
   {
     path: '/character/:id',

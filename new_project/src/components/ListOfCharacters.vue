@@ -5,7 +5,7 @@
 </div>
   
   <div class="wrapperCharacters">
-    <div v-for="character in getCharDisplayed" :key="character.id">
+    <div v-for="character in getCharacters" :key="character.id">
       <div class="links">
         <router-link
           style="text-decoration: none; color: inherit;"
@@ -14,37 +14,51 @@
           <img id="imgChar" :src="character.image"/>
         </router-link>
       </div>
-      <router-view></router-view>
     </div>
   </div>
 
 </template>
 
-<script>
+<script setup>
 
-import { mapGetters } from 'vuex'
+//import { mapGetters } from 'vuex'
 import Filters from './Filters.vue'
 import Pagination from './Pagination.vue'
+import {useNewStore} from "@/store/newStore.js"
+import { onMounted } from 'vue';
 
-  export default {
-    name: "listOfCharacters",
-    
-    created() {
-        this.$store.dispatch("getDatas").then(() => {
-            const parameters = { first: 0, last: this.charPerPage };
-            this.$store.dispatch("displayCharacters", parameters);
-        });
-    },
-    
-    computed: {
-        ...mapGetters([
-            "characters",
-            "getCharDisplayed",
-            "getCountCharacters"
-        ])
-    },
-    components: { Filters, Pagination }
+
+const newStore = useNewStore()
+
+const getCharacters = () => {
+ newStore.getCharacters
 }
+
+onMounted(() => {
+  newStore.getDatas();
+})
+
+
+
+//   export default {
+//     name: "listOfCharacters",
+    
+//     created() {
+//         this.$store.dispatch("getDatas").then(() => {
+//             const parameters = { first: 0, last: this.charPerPage };
+//             this.$store.dispatch("displayCharacters", parameters);
+//         });
+//     },
+    
+//     computed: {
+//         ...mapGetters([
+//             "characters",
+//             "getCharDisplayed",
+//             "getCountCharacters"
+//         ])
+//     },
+//     components: { Filters, Pagination }
+// }
 </script>
 
 

@@ -1,20 +1,14 @@
 <template>
   <div class="home">
   <h1 class="mainTitle">RICK AND MORTY X JELLYSMACK</h1>
-    <ListOfCharacters/>
-  </div> 
+  </div>
+  <ListOfCharacters></ListOfCharacters>
 </template>
 
-<script>
+<script setup>
 import ListOfCharacters from '@/components/ListOfCharacters.vue'
 
-export default {
-  name: 'Home',
-  components: {
-    ListOfCharacters
-    
-  }
-}
+
 </script> 
 
 <style scoped>
