@@ -10,8 +10,11 @@
         <router-link
           style="text-decoration: none; color: inherit;"
           :to="{ name: 'character', params: { id: character.id } }"
-          ><h4>{{ character.name }} ({{ character.status }})</h4>
-          <img id="imgChar" :src="character.image"/>
+          >
+          
+            <CharacterCard :name="character.name" :status="character.status" :imageUrl="character.image"></CharacterCard>
+
+          
         </router-link>
       </div>
     </div>
@@ -25,15 +28,15 @@ import Filters from './Filters.vue'
 import Pagination from './Pagination.vue'
 import {useNewStore} from "@/store/newStore.js"
 import { onMounted } from 'vue';
+import CharacterCard from './CharacterCard.vue';
 
 
 const newStore = useNewStore()
 onMounted(() => {
   newStore.getDatas(newStore.url);
 })
-const props = defineProps({
-  
-})
+const test = "test"
+
 </script>
 
 
@@ -85,34 +88,10 @@ button {
 
 
 
-img {
-  width: 60%;
-  border-color: rgb(41, 41, 43);
-  border-style: solid;
-  border-width: 10px;
-  border-radius: 50%;
-  transition: transform 0.2s;
-}
 
-img:hover {
-  -ms-transform: scale(1.15);
-  -webkit-transform: scale(1.15);
-  transform: scale(1.15);
-}
 
-h4 {
-  transition: transform 0.2s;
-  color: rgb(41, 41, 43);
-  font-size: 20px;
-}
 
-h4:hover {
-  -ms-transform: scale(1.15);
-  -webkit-transform: scale(1.15);
-  transform: scale(1.15);
-  text-decoration: underline;
-  text-decoration-color: rgb(245, 104, 11);
-  color: black;
-}
+
+
 
 </style>
