@@ -7,21 +7,14 @@
     </div>
 </template>
 
-<script>
+<script setup>
+
+const characterPerPages = 20;
+const currentPage = ref(0);
+const firstPage = 0;
 
 
-
-export default {
-    name : "pagination",
-    data() {
-        return {
-            charPerPage: 20,
-            currentPage: 0,
-            firstPage: 0,
-        };
-    },
-    methods :  {
-        getTotalPages() {
+const getTotalPages = () => {
             let totalPages = 0;
             if (this.getCountCharacters % this.charPerPage == 0) {
                 totalPages = this.getCountCharacters / this.charPerPage;
@@ -30,14 +23,16 @@ export default {
                 totalPages = Math.ceil(this.getCountCharacters / this.charPerPage);
             }
             return totalPages;
-        },
-        goToFirstPage() {
+        }
+
+const goToFirstPage = () => {
             this.currentPage = 0;
             let first = 0;
             let last = first + this.charPerPage;
             this.$store.dispatch("displayCharacters", { first: first, last: last });
-        },
-        goToNextPage() {
+        }
+
+const goToNextPage = () => {
             if (this.currentPage == this.getTotalPages() - 1) {
                 this.currentPage = this.getTotalPages();
             }
@@ -47,8 +42,9 @@ export default {
                 let last = first + this.charPerPage;
                 this.$store.dispatch("displayCharacters", { first: first, last: last });
             }
-        },
-        goToPrevPage() {
+        }
+
+const goToPrevPage = () => {
             if (this.currentPage == 0) {
                 this.currentPage = 0;
             }
@@ -58,17 +54,15 @@ export default {
                 let last = first + this.charPerPage;
                 this.$store.dispatch("displayCharacters", { first: first, last: last });
             }
-        },
-        goToLastPage() {
+        }
+
+const goToLastPage = () => {
             this.currentPage = this.getTotalPages() - 1;
             let last = this.getCountCharacters;
             let first = this.currentPage * this.charPerPage;
             this.$store.dispatch("displayCharacters", { first: first, last: last });
         }
-    }
-    
-    }
-
+  
 </script>
 
 <style scoped>

@@ -36,54 +36,41 @@
 
 </template>
 
-<script>
+<script setup>
 
+const applyFilteredList= () => {
+  let filters = []
+  if (document.getElementById('alive').checked) {
+    filters.push('Alive')
+  }
+  if (document.getElementById('dead').checked) {
+    filters.push('Dead')
+  }
+  if (document.getElementById('unknown').checked) {
+    filters.push('unknown')
+  }
+  if (filters.length == 0) {
+    this.$store.dispatch('resetCharacters').then(() => this.goToFirstPage())
+  } else {
+    this.$store
+      .dispatch('filteredList', filters)
+      .then(() => this.goToFirstPage())
+  }
+}
 
+const searchCharacters =  () => {
+  let search = document.getElementById('searchInput').value
 
-  export default {
-    name: 'Filters',
-    method: {
-        applyFilteredList () {
-        let filters = []
-
-        if (document.getElementById('alive').checked) {
-          filters.push('Alive')
-        }
-        if (document.getElementById('dead').checked) {
-          filters.push('Dead')
-        }
-        if (document.getElementById('unknown').checked) {
-          filters.push('unknown')
-        }
-        if (filters.length == 0) {
-          this.$store.dispatch('resetCharacters').then(() => this.goToFirstPage())
-        } else {
-          this.$store
-            .dispatch('filteredList', filters)
-            .then(() => this.goToFirstPage())
-        }
-      },
-
-      searchCharacters () {
-        let search = document.getElementById('searchInput').value
-
-        if (search != '') {
-          document.getElementById('searchInput').value = null
-          this.$store
-            .dispatch('searchList', search)
-            .then(() => this.goToFirstPage())
-        } else {
-          this.$store.dispatch('resetCharacters').then(() => this.goToFirstPage())
-        }
-      }
-    },
-
-    computed: {
-     
-      
-    }
-   }
-
+  if (search != '') {
+    document.getElementById('searchInput').value = null
+    this.$store
+      .dispatch('searchList', search)
+      .then(() => this.goToFirstPage())
+  } else {
+    this.$store.dispatch('resetCharacters').then(() => this.goToFirstPage())
+  }
+}
+ 
 </script>
 
 <style scoped>
