@@ -38,7 +38,6 @@ import Pagination from '@/components/Pagination.vue'
 
 .userPreferences {
   display: flex;
-  flex-direction: row;
   justify-content: space-around;
   align-items: center;
   margin-bottom: 5%;

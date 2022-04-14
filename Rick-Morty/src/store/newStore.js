@@ -9,9 +9,6 @@ export const useNewStore = defineStore({
     infos: [],
     characters: [],
     currentCharacter: {},
-    //allCharacters: [],
-    //charactersDisplayed: [],
-    //currentPages : 1
   }),
 
   getters: {

@@ -1,9 +1,10 @@
 <template>
     <div class="wrapperPages">
-      <button id="goToFirstPage" @click="goToFirstPage">FIRST</button>
+      <!-- <button id="goToFirstPage" @click="goToFirstPage">FIRST</button> -->
       <button id="goToNextPage" @click="goToNextPage">NEXT</button>
       <button id="goToPrevPage" @click="goToPrevPage">PREV</button>
-      <button id="goToLastPage" @click="goToLastPage">LAST</button>
+      <!-- <button id="goToLastPage" @click="goToLastPage">LAST</button> -->
+      <p>{{currentPage}} / {{newStore.infos.pages}}</p>
     </div>
 </template>
 
@@ -13,20 +14,33 @@ import {ref} from 'vue'
 import {useNewStore} from "@/store/newStore.js"
 
 const newStore = useNewStore()
+const currentPage = ref(1)
+const totalPage = ref()
   
 const goToNextPage = () => {
+  if (newStore.infos.pages != currentPage.value){
+      currentPage.value += 1
+  }
   newStore.fetchDatas(newStore.infos.next)
 }
 
 const goToPrevPage = () => {
+   if (newStore.infos.prev != null) {
+         currentPage.value -= 1
+   }
+
   newStore.fetchDatas(newStore.infos.prev)
 }
 
 const goToFirstPage = () => {
+      currentPage.value = 1
+
   newStore.fetchDatas(newStore.url)
 }
 
 const goToLastPage = () => {
+      currentPage.value = newStore.infos.pages
+
   let lastUrl = `https://rickandmortyapi.com/api/character/?page=${newStore.infos.pages}`
   newStore.fetchDatas(lastUrl)
 }

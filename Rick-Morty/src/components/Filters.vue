@@ -1,5 +1,5 @@
 <template>
-    
+  <div class="mainContainer">
     <div class="searchWrapper">
       <input type="text" id="searchInput" v-model="searchedCharacter" placeholder="Search Rick..." />
       <button id="search" @click="applySearchedCharacter">GO</button>
@@ -34,7 +34,13 @@
           value="unknown"/>
         <label for="unknown">Unknown</label>
       </form>
+           
+
     </div>
+    <div>
+ <button class="clear" @click="removeAllFilters">CLEAR</button>
+      </div>
+  </div>
 
 </template>
 
@@ -43,9 +49,7 @@
 import {ref} from 'vue'
 import {useNewStore} from "@/store/newStore.js"
 
-const newStore = useNewStore()
-  
-
+const newStore = useNewStore() 
 const status = ref("")
 const searchedCharacter = ref("")
 
@@ -66,10 +70,26 @@ const applySearchedCharacter = () => {
   newStore.fetchDatas(url)
 }
 
+const removeAllFilters = () => {
+  newStore.fetchDatas(newStore.url)
+  alive.checked = false
+  dead.checked  = false
+  unknown.checked = false
+  searchInput.value = null
+}
+
  
 </script>
 
 <style scoped>
+
+.mainContainer {
+  display: flex;
+  align-items: center;
+}
+.clear{
+  border-radius: 30px;
+}
 #searchWrapper {
   display: flex;
   align-items: center;
