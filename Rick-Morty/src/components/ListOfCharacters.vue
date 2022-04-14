@@ -24,7 +24,7 @@ import CharacterCard from './CharacterCard.vue';
 
 const newStore = useNewStore()
 onBeforeMount(() => {
-  newStore.getDatas(newStore.url);
+  newStore.fetchDatas(newStore.url);
 })
 
 

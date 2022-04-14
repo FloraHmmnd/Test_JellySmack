@@ -10,60 +10,31 @@
 <script setup>
 
 import {ref} from 'vue'
+import {useNewStore} from "@/store/newStore.js"
 
+
+const newStore = useNewStore()
 const characterPerPages = 20;
 const currentPage = ref(0);
 const firstPage = 0;
-
-
-const getTotalPages = () => {
-            let totalPages = 0;
-            if (this.getCountCharacters % this.charPerPage == 0) {
-                totalPages = this.getCountCharacters / this.charPerPage;
-            }
-            else {
-                totalPages = Math.ceil(this.getCountCharacters / this.charPerPage);
-            }
-            return totalPages;
-        }
-
-const goToFirstPage = () => {
-            this.currentPage = 0;
-            let first = 0;
-            let last = first + this.charPerPage;
-            this.$store.dispatch("displayCharacters", { first: first, last: last });
-        }
-
+  
 const goToNextPage = () => {
-            if (this.currentPage == this.getTotalPages() - 1) {
-                this.currentPage = this.getTotalPages();
-            }
-            else {
-                this.currentPage += 1;
-                let first = this.currentPage * this.charPerPage;
-                let last = first + this.charPerPage;
-                this.$store.dispatch("displayCharacters", { first: first, last: last });
-            }
-        }
+  newStore.fetchDatas(newStore.infos.next)
+  console.log(newStore.infos.next)
+}
 
 const goToPrevPage = () => {
-            if (this.currentPage == 0) {
-                this.currentPage = 0;
-            }
-            else {
-                this.currentPage -= 1;
-                let first = this.currentPage * this.charPerPage;
-                let last = first + this.charPerPage;
-                this.$store.dispatch("displayCharacters", { first: first, last: last });
-            }
-        }
+  newStore.fetchDatas(newStore.infos.prev)
+}
+
+const goToFirstPage = () => {
+  newStore.fetchDatas(newStore.url)
+}
 
 const goToLastPage = () => {
-            this.currentPage = this.getTotalPages() - 1;
-            let last = this.getCountCharacters;
-            let first = this.currentPage * this.charPerPage;
-            this.$store.dispatch("displayCharacters", { first: first, last: last });
-        }
+  let lastUrl = "https://rickandmortyapi.com/api/character/?page=" + newStore.infos.pages
+  newStore.fetchDatas(lastUrl)
+}
   
 </script>
 

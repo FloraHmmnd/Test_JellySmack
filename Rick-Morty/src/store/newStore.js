@@ -20,7 +20,7 @@ export const useNewStore = defineStore({
   },
 
   actions: {
-    async getDatas (url) {
+    async fetchDatas (url) {
         try {
           const response = await axios.get(url)
           this.infos = response.data.info
