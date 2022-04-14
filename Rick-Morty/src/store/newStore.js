@@ -11,12 +11,6 @@ export const useNewStore = defineStore({
     currentCharacter: {},
   }),
 
-  getters: {
-    getCountCharacters(state){
-        return state.characters.length
-    }
-  },
-
   actions: {
     async fetchDatas (url) {
         try {
@@ -35,32 +29,5 @@ export const useNewStore = defineStore({
           } 
         })
     },
-    // displayCharacters (params) {
-    //     let charToDisplayed = this.characters.slice(params.first, params.last)
-    //     this.charDisplayed = charToDisplayed
-    // },
-    // filteredList  (filters) {
-    //     let filteredList = [];
-    //     filters.forEach(filter => {
-    //       this.allCharacters.forEach(char => {
-    //         if (char.status == filter) {
-    //           filteredList.push(char)
-    //         }
-    //       })
-    //     })
-    //     this.characters = filteredList
-    // },
-    // searchList (search) {
-    //     let searchList = [];
-    //     this.characters.forEach(char => {
-    //       if (char.name.toLowerCase().includes(search.toLowerCase())) {
-    //         searchList.push(char);
-    //       }
-    //     })
-    //     this.characters = searchList
-    // },
-    // resetCharacters () {
-    //     this.characters = this.allCharacters
-    // }
   }    
 })

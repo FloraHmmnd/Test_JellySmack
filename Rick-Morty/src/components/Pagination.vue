@@ -19,31 +19,28 @@ const totalPage = ref()
   
 const goToNextPage = () => {
   if (newStore.infos.pages != currentPage.value){
-      currentPage.value += 1
+    currentPage.value += 1
   }
   newStore.fetchDatas(newStore.infos.next)
 }
 
 const goToPrevPage = () => {
    if (newStore.infos.prev != null) {
-         currentPage.value -= 1
+      currentPage.value -= 1
    }
-
   newStore.fetchDatas(newStore.infos.prev)
 }
 
-const goToFirstPage = () => {
-      currentPage.value = 1
+// const goToFirstPage = () => {
+//   currentPage.value = 1
+//   newStore.fetchDatas(newStore.url)
+// }
 
-  newStore.fetchDatas(newStore.url)
-}
-
-const goToLastPage = () => {
-      currentPage.value = newStore.infos.pages
-
-  let lastUrl = `https://rickandmortyapi.com/api/character/?page=${newStore.infos.pages}`
-  newStore.fetchDatas(lastUrl)
-}
+// const goToLastPage = () => {
+//   currentPage.value = newStore.infos.pages
+//   let lastUrl = `https://rickandmortyapi.com/api/character/?page=${newStore.infos.pages}`
+//   newStore.fetchDatas(lastUrl)
+// }
   
 </script>
 
