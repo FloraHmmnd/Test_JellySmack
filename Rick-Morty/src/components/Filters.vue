@@ -1,75 +1,65 @@
 <template>
     
     <div class="searchWrapper">
-      <input type="text" id="searchInput" placeholder="Search Rick..." />
-      <button id="search" @click="searchCharacters">GO</button>
+      <input type="text" id="searchInput" v-model="searchedCharacter" placeholder="Search Rick..." />
+      <button id="search" @click="applySearchedCharacter">GO</button>
     </div>
 
     <div class="filterWrapper">
       <form>
         <input
-          type="checkbox"
+          type="radio"
           id="alive"
-          @click="applyFilteredList"
+          v-model="status"
+          @change="applyFiltersStatus"
           name="alive"
-          value="alive"
-        />
+          value="alive"/>
         <label for="alive">Alive</label>
+
         <input
-          type="checkbox"
+          type="radio"
           id="dead"
-          @click="applyFilteredList"
+          v-model="status"
+          @change="applyFiltersStatus"
           name="dead"
-          value="dead"
-        />
+          value="dead"/>
         <label for="dead">Dead</label>
+
         <input
-          type="checkbox"
+          type="radio"
           id="unknown"
-          @click="applyFilteredList"
+          v-model="status"
+          @change="applyFiltersStatus"
           name="unknown"
-          value="unknown"
-        />
+          value="unknown"/>
         <label for="unknown">Unknown</label>
       </form>
+      <h4> {{searchedCharacter}}</h4>
     </div>
 
 </template>
 
 <script setup>
 
-const applyFilteredList= () => {
-  let filters = []
-  if (document.getElementById('alive').checked) {
-    filters.push('Alive')
-  }
-  if (document.getElementById('dead').checked) {
-    filters.push('Dead')
-  }
-  if (document.getElementById('unknown').checked) {
-    filters.push('unknown')
-  }
-  if (filters.length == 0) {
-    this.$store.dispatch('resetCharacters').then(() => this.goToFirstPage())
-  } else {
-    this.$store
-      .dispatch('filteredList', filters)
-      .then(() => this.goToFirstPage())
-  }
+import {ref} from 'vue'
+import {useNewStore} from "@/store/newStore.js"
+
+const newStore = useNewStore()
+  
+
+const status = ref("")
+const searchedCharacter = ref("")
+
+const applyFiltersStatus = () => {
+  let url = "https://rickandmortyapi.com/api/character/?status=" + status.value
+    newStore.fetchDatas(url)  
 }
 
-const searchCharacters =  () => {
-  let search = document.getElementById('searchInput').value
-
-  if (search != '') {
-    document.getElementById('searchInput').value = null
-    this.$store
-      .dispatch('searchList', search)
-      .then(() => this.goToFirstPage())
-  } else {
-    this.$store.dispatch('resetCharacters').then(() => this.goToFirstPage())
-  }
+const applySearchedCharacter = () => {
+  let url = "https://rickandmortyapi.com/api/character/?name=" + searchedCharacter.value
+  newStore.fetchDatas(url)
 }
+
  
 </script>
 

@@ -12,15 +12,10 @@
 import {ref} from 'vue'
 import {useNewStore} from "@/store/newStore.js"
 
-
 const newStore = useNewStore()
-const characterPerPages = 20;
-const currentPage = ref(0);
-const firstPage = 0;
   
 const goToNextPage = () => {
   newStore.fetchDatas(newStore.infos.next)
-  console.log(newStore.infos.next)
 }
 
 const goToPrevPage = () => {
