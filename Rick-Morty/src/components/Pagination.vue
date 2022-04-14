@@ -27,7 +27,7 @@ const goToFirstPage = () => {
 }
 
 const goToLastPage = () => {
-  let lastUrl = "https://rickandmortyapi.com/api/character/?page=" + newStore.infos.pages
+  let lastUrl = `https://rickandmortyapi.com/api/character/?page=${newStore.infos.pages}`
   newStore.fetchDatas(lastUrl)
 }
   

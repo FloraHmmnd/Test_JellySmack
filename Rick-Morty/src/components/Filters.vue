@@ -34,7 +34,6 @@
           value="unknown"/>
         <label for="unknown">Unknown</label>
       </form>
-      <h4> {{searchedCharacter}}</h4>
     </div>
 
 </template>
@@ -51,12 +50,19 @@ const status = ref("")
 const searchedCharacter = ref("")
 
 const applyFiltersStatus = () => {
-  let url = "https://rickandmortyapi.com/api/character/?status=" + status.value
+  let url = `https://rickandmortyapi.com/api/character/?status=${status.value}`
+    if (searchedCharacter != null) {
+      url += `&name=${searchedCharacter.value}`
+      console.log(url)
+  }
     newStore.fetchDatas(url)  
 }
 
 const applySearchedCharacter = () => {
-  let url = "https://rickandmortyapi.com/api/character/?name=" + searchedCharacter.value
+  let url = `https://rickandmortyapi.com/api/character/?name=${searchedCharacter.value}`
+  if (status.value != null) {
+    url += `&status=${status.value}`
+  }
   newStore.fetchDatas(url)
 }
 

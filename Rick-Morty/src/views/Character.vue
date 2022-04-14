@@ -42,7 +42,6 @@ const {currentCharacter} = storeToRefs(newStore)
 
 onBeforeMount(() => {
   newStore.setCurrentCharacter(currentCharacterId)
-  
 })
 
 
