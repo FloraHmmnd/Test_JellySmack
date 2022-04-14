@@ -30,13 +30,14 @@ export const useNewStore = defineStore({
           console.error("fetch error")
         }           
     },
-    setCurrentCharacter ( characterId) {
+    setCurrentCharacter (characterId) {
         let characterFound = {}
         this.characters.forEach(character => {
         if (characterId == character.id) {
             characterFound = character
         }
         })
+        console.log("characterFound :" + characterFound)
         this.currentCharacter = characterFound
     },
     displayCharacters (params) {

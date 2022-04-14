@@ -2,11 +2,18 @@
   <div class="home">
   <h1 class="mainTitle">RICK AND MORTY X JELLYSMACK</h1>
   </div>
+  <div class="userPreferences">
+  <Filters></Filters>
+  <Pagination></Pagination>
+</div>
   <ListOfCharacters></ListOfCharacters>
 </template>
 
 <script setup>
 import ListOfCharacters from '@/components/ListOfCharacters.vue'
+import Filters from '@/components/Filters.vue'
+import Pagination from '@/components/Pagination.vue'
+
 
 
 
@@ -27,6 +34,15 @@ import ListOfCharacters from '@/components/ListOfCharacters.vue'
   background-clip: border-box;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.userPreferences {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 5%;
+  height: 20px;
 }
 
 </style>

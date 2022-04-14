@@ -9,6 +9,8 @@
 
 <script setup>
 
+import {ref} from 'vue'
+
 const characterPerPages = 20;
 const currentPage = ref(0);
 const firstPage = 0;

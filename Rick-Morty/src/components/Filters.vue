@@ -113,5 +113,11 @@ button {
   size: 100%;
   cursor: pointer;
 }
+form > label {
+  font-size: 20px;
+}
 
+form > input {
+  cursor: pointer;
+}
 </style>

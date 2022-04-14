@@ -6,21 +6,18 @@
 
     <div>
       <p class="description">
-        My name is <span>{{ character.name }}</span> and I'm
-        <span>{{ character.status }}</span
+        My name is <span>{{currentCharacter.name }}</span> and I'm
+       <span>{{ currentCharacter.status }}</span
         >.<br />
-        I was created the <span>{{ character.created }}</span
+        I was created the <span>{{ currentCharacter.created }}</span
         >.<br />
-        I'm a <span>{{ character.gender }} {{ character.species }}</span> from
-        <span>{{ character.origin.name }}</span> and you can meet me at
-        <span>{{ character.location.name }}</span
-        >.
+        I'm a <span>{{ currentCharacter.gender }} {{ currentCharacter.species }}</span> from
+       <span>{{currentCharacter.origin.name}}</span> and you can meet me at 
+       <span>{{ currentCharacter.location.name}}</span>.
       </p>
 
-      <router-link to="/character"><button class="returnList">Go back to my friends</button></router-link>
-
-      <div><img class="imageCharacter" :src="character.image" /></div>
-
+      <router-link :to="'/characters'"><button class="returnList">Go back to my friends</button></router-link>
+     <div><img class="imageCharacter" :src="currentCharacter.image" /></div>
       <router-view></router-view>
 
     </div>
@@ -29,20 +26,30 @@
 
 </template>
 
-<script>
-export default {
-  name: 'Character',
-  props: ['id'],
+<script setup>
 
-  created () {
-    this.$store.dispatch('setCurrentCharacter', this.id)
-  },
-  computed: {
-    character: function () {
-      return this.$store.getters.getCurrentCharacter
-    }
-  }
-}
+import {useNewStore} from "@/store/newStore.js"
+import { onBeforeMount } from 'vue';
+import { storeToRefs } from 'pinia'
+import { useRoute } from 'vue-router'
+
+
+const route = useRoute()
+const currentCharacterId = route.params.id
+const newStore = useNewStore()
+const {currentCharacter} = storeToRefs(newStore)
+
+
+onBeforeMount(() => {
+  newStore.setCurrentCharacter(currentCharacterId)
+  
+})
+
+
+  
+
+
+  
 </script>
 
 <style>
