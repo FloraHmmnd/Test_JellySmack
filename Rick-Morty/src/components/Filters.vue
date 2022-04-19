@@ -56,20 +56,19 @@ const searchedCharacter = ref("")
 const emits = defineEmits(['filtersStatus', 'searchCharacter', 'removeFiltersAndSearch'])
 
 const applyFiltersStatus = () => {
-  let url = `https://rickandmortyapi.com/api/character/?status=${status.value}`
+  let filters = `?status=${status.value}`
     if (searchedCharacter != null) {
-      url += `&name=${searchedCharacter.value}`
-      console.log(url)
+      filters += `&name=${searchedCharacter.value}`
   }
-  emits('filtersStatus', url)
+  emits('filtersStatus', filters)
 }
 
 const applySearchedCharacter = () => {
-  let url = `https://rickandmortyapi.com/api/character/?name=${searchedCharacter.value}`
+  let filters = `?name=${searchedCharacter.value}`
   if (status.value != null) {
-    url += `&status=${status.value}`
+    filters += `&status=${status.value}`
   }
-    emits('searchCharacter', url)
+    emits('searchCharacter', filters)
 }
 
 

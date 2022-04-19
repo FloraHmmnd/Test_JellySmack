@@ -4,20 +4,21 @@
 
     <h2 class="titleCharacter">:-) -- Hi human ! -- (-:</h2>
 
-    <div>
+    <div v-if="currentCharacter">
+
       <p class="description">
-        My name is <span>{{currentCharacter.name }}</span> and I'm
-       <span>{{ currentCharacter.status }}</span
+        My name is <span>{{currentCharacter?.name }}</span> and I'm
+       <span>{{ currentCharacter?.status }}</span
         >.<br />
-        I was created the <span>{{ currentCharacter.created }}</span
+        I was created the <span>{{ currentCharacter?.created }}</span
         >.<br />
-        I'm a <span>{{ currentCharacter.gender }} {{ currentCharacter.species }}</span> from
-       <span>{{currentCharacter.origin.name}}</span> and you can meet me at 
-       <span>{{ currentCharacter.location.name}}</span>.
+        I'm a <span>{{ currentCharacter?.gender }} {{ currentCharacter?.species }}</span> from
+       <span>{{currentCharacter?.origin?.name}}</span> and you can meet me at 
+       <span>{{ currentCharacter?.location?.name}}</span>.
       </p>
 
       <router-link :to="'/characters'"><button class="returnList">Go back to my friends</button></router-link>
-     <div><img class="imageCharacter" :src="currentCharacter.image" /></div>
+     <div><img class="imageCharacter" :src="currentCharacter?.image" /></div>
       <router-view></router-view>
 
     </div>
@@ -29,21 +30,19 @@
 <script setup>
 
 import {useNewStore} from "@/store/newStore.js"
-import { onBeforeMount } from 'vue';
+import { onBeforeMount,ref } from 'vue';
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
 
 
 const route = useRoute()
-const currentCharacterId = route.params.id
+const currentCharacterId = ref(route.params.id)
 const newStore = useNewStore()
 const {currentCharacter} = storeToRefs(newStore)
 
 
 onBeforeMount(() => {
-  newStore.fetchDatas(newStore.url);
-  console.log("refetch")
-  newStore.setCurrentCharacter(currentCharacterId)
+  newStore.fetchCurrentCharacter(currentCharacterId.value)
 })
 
 

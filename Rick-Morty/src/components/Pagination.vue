@@ -2,7 +2,7 @@
     <div class="wrapperPages">
       <button id="goToPrevPage" @click="prevPageButton">PREV</button>
       <button id="goToNextPage" @click="nextPageButton">NEXT</button>
-      <p>{{currentPage}} / {{newStore.infos.pages}}</p>
+      <p>{{currentPage}} / {{newStore.totalPages}}</p>
     </div>
 </template>
 
@@ -12,22 +12,21 @@ import {ref} from 'vue'
 import {useNewStore} from "@/store/newStore.js"
 
 const newStore = useNewStore()
-const currentPage = ref(1)
-const totalPage = ref()
+// const currentPage = ref(1)
+// const totalPage = ref()
+
+const props = defineProps({
+  currentPage : ref(0),
+})
+
 
 const emits = defineEmits(['loadNextPage', 'loadPreviousPage'])
 
 const nextPageButton = () => {
-  if (newStore.infos.pages != currentPage.value){
-    currentPage.value += 1
-  }
   emits('loadNextPage')
 }
 
 const prevPageButton = () => {
-  if (newStore.infos.prev != null) {
-      currentPage.value -= 1
-   }
    emits('loadPreviousPage')
 }
 

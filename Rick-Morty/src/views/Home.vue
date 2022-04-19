@@ -4,7 +4,7 @@
   </div>
   <div class="userPreferences">
   <Filters @filtersStatus="filtersButtonHandler" @searchCharacter="searchBarHandler" @removeFiltersAndSearch="clearButtonHandler"></Filters>
-  <Pagination @loadNextPage="goToNextPage" @loadPreviousPage="goToPrevPage"></Pagination>
+  <Pagination @loadNextPage="goToNextPage" @loadPreviousPage="goToPrevPage" :currentPage="currentPage"></Pagination>
 </div>
   <ListOfCharacters></ListOfCharacters>
 </template>
@@ -14,34 +14,42 @@ import ListOfCharacters from '@/components/ListOfCharacters.vue'
 import Filters from '@/components/Filters.vue'
 import Pagination from '@/components/Pagination.vue'
 import {useNewStore} from "@/store/newStore.js"
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 
 
 const newStore = useNewStore()
+const currentPage = ref(1)
+
 
 onBeforeMount(() => {
-  newStore.fetchDatas(newStore.url);
+  newStore.fetchCharacters();
 })
 
 const filtersButtonHandler = (event) => {
-    newStore.fetchDatas(event)  
+    newStore.fetchCharacters(event)  
 }
 
-const searchBarHandler = () => {
-      newStore.fetchDatas(newStore.url)  
+const searchBarHandler = (event) => {
+      newStore.fetchCharacters(event)  
 }
 
 const clearButtonHandler = () => {
-  newStore.fetchDatas(newStore.url)
+  currentPage.value = 1
+  newStore.fetchCharacters()
 }
 
 const goToNextPage = () => {
-   newStore.fetchDatas(newStore.infos.next)
+  if (newStore.totalPages != currentPage.value){
+     currentPage.value += 1
+   }
+   newStore.fetchCharacters(newStore.infos.next)
 }
 
 const goToPrevPage = () => {
-    newStore.fetchDatas(newStore.infos.prev)
-
+  if (newStore.infos.prev != null) {
+      currentPage.value -= 1
+   }
+  newStore.fetchCharacters(newStore.infos.prev)
 }
 
 </script> 
