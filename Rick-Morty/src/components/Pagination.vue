@@ -1,9 +1,7 @@
 <template>
     <div class="wrapperPages">
-      <!-- <button id="goToFirstPage" @click="goToFirstPage">FIRST</button> -->
-      <button id="goToNextPage" @click="goToNextPage">NEXT</button>
-      <button id="goToPrevPage" @click="goToPrevPage">PREV</button>
-      <!-- <button id="goToLastPage" @click="goToLastPage">LAST</button> -->
+      <button id="goToPrevPage" @click="prevPageButton">PREV</button>
+      <button id="goToNextPage" @click="nextPageButton">NEXT</button>
       <p>{{currentPage}} / {{newStore.infos.pages}}</p>
     </div>
 </template>
@@ -16,31 +14,23 @@ import {useNewStore} from "@/store/newStore.js"
 const newStore = useNewStore()
 const currentPage = ref(1)
 const totalPage = ref()
-  
-const goToNextPage = () => {
+
+const emits = defineEmits(['loadNextPage', 'loadPreviousPage'])
+
+const nextPageButton = () => {
   if (newStore.infos.pages != currentPage.value){
     currentPage.value += 1
   }
-  newStore.fetchDatas(newStore.infos.next)
+  emits('loadNextPage')
 }
 
-const goToPrevPage = () => {
-   if (newStore.infos.prev != null) {
+const prevPageButton = () => {
+  if (newStore.infos.prev != null) {
       currentPage.value -= 1
    }
-  newStore.fetchDatas(newStore.infos.prev)
+   emits('loadPreviousPage')
 }
 
-// const goToFirstPage = () => {
-//   currentPage.value = 1
-//   newStore.fetchDatas(newStore.url)
-// }
-
-// const goToLastPage = () => {
-//   currentPage.value = newStore.infos.pages
-//   let lastUrl = `https://rickandmortyapi.com/api/character/?page=${newStore.infos.pages}`
-//   newStore.fetchDatas(lastUrl)
-// }
   
 </script>
 

@@ -53,13 +53,15 @@ const newStore = useNewStore()
 const status = ref("")
 const searchedCharacter = ref("")
 
+const emits = defineEmits(['filtersStatus', 'searchCharacter', 'removeFiltersAndSearch'])
+
 const applyFiltersStatus = () => {
   let url = `https://rickandmortyapi.com/api/character/?status=${status.value}`
     if (searchedCharacter != null) {
       url += `&name=${searchedCharacter.value}`
       console.log(url)
   }
-    newStore.fetchDatas(url)  
+  emits('filtersStatus', url)
 }
 
 const applySearchedCharacter = () => {
@@ -67,11 +69,13 @@ const applySearchedCharacter = () => {
   if (status.value != null) {
     url += `&status=${status.value}`
   }
-  newStore.fetchDatas(url)
+    emits('searchCharacter', url)
 }
 
+
+
 const removeAllFilters = () => {
-  newStore.fetchDatas(newStore.url)
+  emits('removeFiltersAndSearch')
   alive.checked = false
   dead.checked  = false
   unknown.checked = false

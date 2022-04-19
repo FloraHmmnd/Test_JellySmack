@@ -41,6 +41,8 @@ const {currentCharacter} = storeToRefs(newStore)
 
 
 onBeforeMount(() => {
+  newStore.fetchDatas(newStore.url);
+  console.log("refetch")
   newStore.setCurrentCharacter(currentCharacterId)
 })
 

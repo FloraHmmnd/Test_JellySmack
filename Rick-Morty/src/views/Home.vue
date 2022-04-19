@@ -3,8 +3,8 @@
   <h1 class="mainTitle">RICK AND MORTY X JELLYSMACK</h1>
   </div>
   <div class="userPreferences">
-  <Filters></Filters>
-  <Pagination></Pagination>
+  <Filters @filtersStatus="filtersButtonHandler" @searchCharacter="searchBarHandler" @removeFiltersAndSearch="clearButtonHandler"></Filters>
+  <Pagination @loadNextPage="goToNextPage" @loadPreviousPage="goToPrevPage"></Pagination>
 </div>
   <ListOfCharacters></ListOfCharacters>
 </template>
@@ -13,9 +13,36 @@
 import ListOfCharacters from '@/components/ListOfCharacters.vue'
 import Filters from '@/components/Filters.vue'
 import Pagination from '@/components/Pagination.vue'
+import {useNewStore} from "@/store/newStore.js"
+import { onBeforeMount } from 'vue';
 
 
+const newStore = useNewStore()
 
+onBeforeMount(() => {
+  newStore.fetchDatas(newStore.url);
+})
+
+const filtersButtonHandler = (event) => {
+    newStore.fetchDatas(event)  
+}
+
+const searchBarHandler = () => {
+      newStore.fetchDatas(newStore.url)  
+}
+
+const clearButtonHandler = () => {
+  newStore.fetchDatas(newStore.url)
+}
+
+const goToNextPage = () => {
+   newStore.fetchDatas(newStore.infos.next)
+}
+
+const goToPrevPage = () => {
+    newStore.fetchDatas(newStore.infos.prev)
+
+}
 
 </script> 
 
