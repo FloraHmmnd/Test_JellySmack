@@ -12,20 +12,25 @@ export const useNewStore = defineStore({
   }),
 
   actions: {
-    async fetchCharacters (filters) {
+    async fetchCharacters (infos) {
       let response;
         try {
-          if(filters === undefined){
+          if(infos.filters.value === undefined && infos.page.value === undefined){
             response = await axios.get(`${import.meta.env.VITE_API_URL}/character`)                
-          }else {
-            response = await axios.get(`${import.meta.env.VITE_API_URL}/character/${filters}`)                
+          }else if (infos.page.value === undefined) {
+            response = await axios.get(`${import.meta.env.VITE_API_URL}/character/?${infos.filters.value}`)
+          }else if (infos.filters === undefined){
+            response = `${import.meta.env.VITE_API_URL}/character/${infos.page.value}`
+          }
+          else {
+            response = await axios.get(`${import.meta.env.VITE_API_URL}/character/?${infos.page.value}&${infos.filters.value}`)
           }        
           this.infos = response.data.info
           this.totalPages = response.data.info.pages
           this.characters = response.data.results
         }
         catch (error ) {
-          console.error("fetch error")
+          console.error("fetch characters error")
           console.log(error);
 
         }           
@@ -33,12 +38,12 @@ export const useNewStore = defineStore({
     
     async fetchCurrentCharacter (id){
       try {
-        console.log("fetch character")
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/character/${id}`)
         this.currentCharacter = response.data
       }
       catch {
-        console.error("fetch error")
+        console.error("fetch current character error")
+        console.log(error);
       }           
   },
     

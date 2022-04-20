@@ -12,8 +12,6 @@ import {ref} from 'vue'
 import {useNewStore} from "@/store/newStore.js"
 
 const newStore = useNewStore()
-// const currentPage = ref(1)
-// const totalPage = ref()
 
 const props = defineProps({
   currentPage : ref(0),

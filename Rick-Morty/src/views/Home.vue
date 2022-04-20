@@ -20,36 +20,46 @@ import { onBeforeMount, ref } from 'vue';
 const newStore = useNewStore()
 const currentPage = ref(1)
 
+const infos = {
+  filters : ref(),
+  page : ref()
+}
 
 onBeforeMount(() => {
-  newStore.fetchCharacters();
+  newStore.fetchCharacters(infos);
 })
 
 const filtersButtonHandler = (event) => {
-    newStore.fetchCharacters(event)  
+    infos.filters.value = event
+    newStore.fetchCharacters(infos)  
 }
 
 const searchBarHandler = (event) => {
-      newStore.fetchCharacters(event)  
+      infos.filters.value = event
+      newStore.fetchCharacters(infos)  
 }
 
 const clearButtonHandler = () => {
   currentPage.value = 1
-  newStore.fetchCharacters()
+  infos.filters.value = undefined
+  infos.page.value = undefined
+  newStore.fetchCharacters(infos)
 }
 
 const goToNextPage = () => {
   if (newStore.totalPages != currentPage.value){
      currentPage.value += 1
    }
-   newStore.fetchCharacters(newStore.infos.next)
+   infos.page.value = `page=${currentPage.value}`
+   newStore.fetchCharacters(infos)
 }
 
 const goToPrevPage = () => {
   if (newStore.infos.prev != null) {
       currentPage.value -= 1
    }
-  newStore.fetchCharacters(newStore.infos.prev)
+   infos.page.value = `page=${currentPage.value}`
+  newStore.fetchCharacters(infos)
 }
 
 </script> 

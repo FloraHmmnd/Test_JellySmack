@@ -50,25 +50,25 @@ import {ref} from 'vue'
 import {useNewStore} from "@/store/newStore.js"
 
 const newStore = useNewStore() 
-const status = ref("")
-const searchedCharacter = ref("")
+const status = ref()
+const searchedCharacter = ref()
 
 const emits = defineEmits(['filtersStatus', 'searchCharacter', 'removeFiltersAndSearch'])
 
 const applyFiltersStatus = () => {
-  let filters = `?status=${status.value}`
-    if (searchedCharacter != null) {
+  let filters = `status=${status.value}`
+    if (searchedCharacter.value != null) {
       filters += `&name=${searchedCharacter.value}`
   }
   emits('filtersStatus', filters)
 }
 
 const applySearchedCharacter = () => {
-  let filters = `?name=${searchedCharacter.value}`
-  if (status.value != null) {
-    filters += `&status=${status.value}`
+  let filters = `name=${searchedCharacter.value}`
+    if (status.value != null) {
+      filters += `&status=${status.value}`
   }
-    emits('searchCharacter', filters)
+  emits('searchCharacter', filters)
 }
 
 
