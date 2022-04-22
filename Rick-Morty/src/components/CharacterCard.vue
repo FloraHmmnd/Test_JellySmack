@@ -1,18 +1,17 @@
 <template>
-<div class="characterCardContainer">
-    <h1>{{name}} ({{status}})</h1>
-    <img id="imgChar" :src="imageUrl">
-</div>
-
+  <div class="characterCardContainer">
+    <h1>{{ name }} ({{ status }})</h1>
+    <img id="imgChar" :src="imageUrl" />
+  </div>
 </template>
 <script setup>
-import {ref} from 'vue'
+import { ref } from "vue";
 
-const props = defineProps({
-        name : ref(''),
-        status : ref(''),
-        imageUrl : ref('')
-})
+defineProps({
+  name: ref(""),
+  status: ref(""),
+  imageUrl: ref(""),
+});
 </script>
 
 <style scoped>
@@ -31,7 +30,7 @@ img:hover {
   transform: scale(1.15);
 }
 
-h1{
+h1 {
   transition: transform 0.2s;
   color: rgb(41, 41, 43);
   font-size: 20px;

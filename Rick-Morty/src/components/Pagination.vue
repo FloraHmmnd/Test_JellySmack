@@ -1,34 +1,30 @@
 <template>
-    <div class="wrapperPages">
-      <button id="goToPrevPage" @click="prevPageButton">PREV</button>
-      <button id="goToNextPage" @click="nextPageButton">NEXT</button>
-      <p>{{currentPage}} / {{newStore.totalPages}}</p>
-    </div>
+  <div class="wrapperPages">
+    <button id="goToPrevPage" @click="prevPageButton">PREV</button>
+    <button id="goToNextPage" @click="nextPageButton">NEXT</button>
+    <p>{{ currentPage }} / {{ newStore.totalPages }}</p>
+  </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
+import useNewStore from "@/store/newStore";
 
-import {ref} from 'vue'
-import {useNewStore} from "@/store/newStore.js"
+const newStore = useNewStore();
 
-const newStore = useNewStore()
+defineProps({
+  currentPage: ref(0),
+});
 
-const props = defineProps({
-  currentPage : ref(0),
-})
-
-
-const emits = defineEmits(['loadNextPage', 'loadPreviousPage'])
+const emits = defineEmits(["loadNextPage", "loadPreviousPage"]);
 
 const nextPageButton = () => {
-  emits('loadNextPage')
-}
+  emits("loadNextPage");
+};
 
 const prevPageButton = () => {
-   emits('loadPreviousPage')
-}
-
-  
+  emits("loadPreviousPage");
+};
 </script>
 
 <style scoped>
@@ -44,7 +40,7 @@ button {
   font-size: 15px;
   border-width: 5px;
   border-color: rgb(61, 61, 61);
-  font-family: 'Russo One';
+  font-family: "Russo One";
   size: 100%;
   cursor: pointer;
 }

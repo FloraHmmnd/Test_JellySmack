@@ -1,55 +1,50 @@
 <template>
-
   <div class="wrapperCharacter">
-
     <h2 class="titleCharacter">:-) -- Hi human ! -- (-:</h2>
 
     <div v-if="currentCharacter">
-
       <p class="description">
-        My name is <span>{{currentCharacter?.name }}</span> and I'm
-       <span>{{ currentCharacter?.status }}</span
+        My name is <span>{{ currentCharacter?.name }}</span> and I'm
+        <span>{{ currentCharacter?.status }}</span
         >.<br />
         I was created the <span>{{ currentCharacter?.created }}</span
         >.<br />
-        I'm a <span>{{ currentCharacter?.gender }} {{ currentCharacter?.species }}</span> from
-       <span>{{currentCharacter?.origin?.name}}</span> and you can meet me at 
-       <span>{{ currentCharacter?.location?.name}}</span>.
+        I'm a
+        <span
+          >{{ currentCharacter?.gender }} {{ currentCharacter?.species }}</span
+        >
+        from <span>{{ currentCharacter?.origin?.name }}</span> and you can meet
+        me at <span>{{ currentCharacter?.location?.name }}</span
+        >.
       </p>
 
-      <router-link :to="'/characters'"><button class="returnList">Go back to my friends</button></router-link>
-     <div><img class="imageCharacter" :src="currentCharacter?.image" /></div>
+      <router-link :to="'/characters'"
+        ><button class="returnList">Go back to my friends</button></router-link
+      >
+      <div><img class="imageCharacter" :src="currentCharacter?.image" /></div>
       <router-view></router-view>
-
     </div>
-
   </div>
-
 </template>
 
 <script setup>
+import useNewStore from "@/store/newStore";
+import { onBeforeMount, ref } from "vue";
+import { storeToRefs } from "pinia";
+import { useRoute } from "vue-router";
 
-import {useNewStore} from "@/store/newStore.js"
-import { onBeforeMount,ref } from 'vue';
-import { storeToRefs } from 'pinia'
-import { useRoute } from 'vue-router'
-
-
-const route = useRoute()
-const currentCharacterId = ref(route.params.id)
-const newStore = useNewStore()
-const {currentCharacter} = storeToRefs(newStore)
-
+const route = useRoute();
+const currentCharacterId = ref(route.params.id);
+const newStore = useNewStore();
+const { currentCharacter } = storeToRefs(newStore);
 
 onBeforeMount(() => {
-  newStore.fetchCurrentCharacter(currentCharacterId.value)
-})
-
-
+  newStore.currentCharacter = {};
+  newStore.fetchCurrentCharacter(currentCharacterId.value);
+});
 </script>
 
 <style>
-
 .titleCharacter {
   font-size: 5em;
   background: radial-gradient(
@@ -106,8 +101,7 @@ span {
   border-width: 5px;
   border-color: rgb(61, 61, 61);
   border-radius: 30px;
-  font-family: 'Russo One';
+  font-family: "Russo One";
   cursor: pointer;
 }
-
 </style>

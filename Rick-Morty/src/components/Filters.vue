@@ -1,96 +1,80 @@
 <template>
   <div class="mainContainer">
     <div class="searchWrapper">
-      <input type="text" id="searchInput" v-model="searchedCharacter" placeholder="Search Rick..." />
-      <button id="search" @click="applySearchedCharacter">GO</button>
+      <input
+        id="searchInput"
+        v-model="searchedCharacter"
+        type="text"
+        placeholder="Search Rick..."
+        @keyup.enter="applySearchAndFilters"
+      />
+      <button id="search" @click="applySearchAndFilters">GO</button>
     </div>
 
     <div class="filterWrapper">
       <form>
         <input
-          type="radio"
           id="alive"
           v-model="status"
-          @change="applyFiltersStatus"
+          type="radio"
           name="alive"
-          value="alive"/>
+          value="alive"
+          @change="applySearchAndFilters"
+        />
         <label for="alive">Alive</label>
 
         <input
-          type="radio"
           id="dead"
           v-model="status"
-          @change="applyFiltersStatus"
+          type="radio"
           name="dead"
-          value="dead"/>
+          value="dead"
+          @change="applySearchAndFilters"
+        />
         <label for="dead">Dead</label>
 
         <input
-          type="radio"
           id="unknown"
           v-model="status"
-          @change="applyFiltersStatus"
+          type="radio"
           name="unknown"
-          value="unknown"/>
+          value="unknown"
+          @change="applySearchAndFilters"
+        />
         <label for="unknown">Unknown</label>
       </form>
-           
-
     </div>
     <div>
- <button class="clear" @click="removeAllFilters">CLEAR</button>
-      </div>
+      <button class="clear" @click="removeAllFilters">CLEAR</button>
+    </div>
   </div>
-
 </template>
 
 <script setup>
+import { ref } from "vue";
 
-import {ref} from 'vue'
-import {useNewStore} from "@/store/newStore.js"
+const status = ref();
+const searchedCharacter = ref();
 
-const newStore = useNewStore() 
-const status = ref()
-const searchedCharacter = ref()
+const emits = defineEmits(["searchCharacter", "removeFiltersAndSearch"]);
 
-const emits = defineEmits(['filtersStatus', 'searchCharacter', 'removeFiltersAndSearch'])
-
-const applyFiltersStatus = () => {
-  let filters = `status=${status.value}`
-    if (searchedCharacter.value != null) {
-      filters += `&name=${searchedCharacter.value}`
-  }
-  emits('filtersStatus', filters)
-}
-
-const applySearchedCharacter = () => {
-  let filters = `name=${searchedCharacter.value}`
-    if (status.value != null) {
-      filters += `&status=${status.value}`
-  }
-  emits('searchCharacter', filters)
-}
-
-
+const applySearchAndFilters = () => {
+  const filters = { name: searchedCharacter.value, status: status.value };
+  emits("searchCharacter", filters);
+};
 
 const removeAllFilters = () => {
-  emits('removeFiltersAndSearch')
-  alive.checked = false
-  dead.checked  = false
-  unknown.checked = false
-  searchInput.value = null
-}
-
- 
+  emits("removeFiltersAndSearch");
+  status.value = null;
+};
 </script>
 
 <style scoped>
-
 .mainContainer {
   display: flex;
   align-items: center;
 }
-.clear{
+.clear {
   border-radius: 30px;
 }
 #searchWrapper {
@@ -101,7 +85,7 @@ const removeAllFilters = () => {
 }
 
 #searchInput {
-  font-family: 'Russo One';
+  font-family: "Russo One";
   padding: 10px;
   border-width: 5px;
   border-color: rgb(61, 61, 61);
@@ -128,7 +112,7 @@ button {
   font-size: 15px;
   border-width: 5px;
   border-color: rgb(61, 61, 61);
-  font-family: 'Russo One';
+  font-family: "Russo One";
   size: 100%;
   cursor: pointer;
 }

@@ -1,71 +1,67 @@
 <template>
   <div class="home">
-  <h1 class="mainTitle">RICK AND MORTY X JELLYSMACK</h1>
+    <h1 class="mainTitle">RICK AND MORTY X JELLYSMACK</h1>
   </div>
   <div class="userPreferences">
-  <Filters @filtersStatus="filtersButtonHandler" @searchCharacter="searchBarHandler" @removeFiltersAndSearch="clearButtonHandler"></Filters>
-  <Pagination @loadNextPage="goToNextPage" @loadPreviousPage="goToPrevPage" :currentPage="currentPage"></Pagination>
-</div>
+    <Filters
+      @searchCharacter="searchBarHandler"
+      @removeFiltersAndSearch="clearButtonHandler"
+    ></Filters>
+    <Pagination
+      :current-page="currentPage"
+      @loadNextPage="goToNextPage"
+      @loadPreviousPage="goToPrevPage"
+    ></Pagination>
+  </div>
   <ListOfCharacters></ListOfCharacters>
 </template>
 
 <script setup>
-import ListOfCharacters from '@/components/ListOfCharacters.vue'
-import Filters from '@/components/Filters.vue'
-import Pagination from '@/components/Pagination.vue'
-import {useNewStore} from "@/store/newStore.js"
-import { onBeforeMount, ref } from 'vue';
+import ListOfCharacters from "@/components/ListOfCharacters.vue";
+import Filters from "@/components/Filters.vue";
+import Pagination from "@/components/Pagination.vue";
+import useNewStore from "@/store/newStore";
+import { onBeforeMount, ref } from "vue";
 
-
-const newStore = useNewStore()
-const currentPage = ref(1)
+const newStore = useNewStore();
+const currentPage = ref(1);
 
 const infos = {
-  filters : ref(),
-  page : ref()
-}
+  filters: ref(),
+};
 
 onBeforeMount(() => {
   newStore.fetchCharacters(infos);
-})
-
-const filtersButtonHandler = (event) => {
-    infos.filters.value = event
-    newStore.fetchCharacters(infos)  
-}
+});
 
 const searchBarHandler = (event) => {
-      infos.filters.value = event
-      newStore.fetchCharacters(infos)  
-}
+  currentPage.value = 1;
+  infos.filters.value = event;
+  newStore.fetchCharacters(event, currentPage.value);
+};
 
 const clearButtonHandler = () => {
-  currentPage.value = 1
-  infos.filters.value = undefined
-  infos.page.value = undefined
-  newStore.fetchCharacters(infos)
-}
+  currentPage.value = 1;
+  infos.filters.value = undefined;
+  newStore.fetchCharacters(infos.filters.value);
+};
 
 const goToNextPage = () => {
-  if (newStore.totalPages != currentPage.value){
-     currentPage.value += 1
-   }
-   infos.page.value = `page=${currentPage.value}`
-   newStore.fetchCharacters(infos)
-}
+  if (newStore.totalPages !== currentPage.value) {
+    currentPage.value += 1;
+  }
+  newStore.fetchCharacters(infos.filters.value, currentPage.value);
+};
 
 const goToPrevPage = () => {
-  if (newStore.infos.prev != null) {
-      currentPage.value -= 1
-   }
-   infos.page.value = `page=${currentPage.value}`
-  newStore.fetchCharacters(infos)
-}
-
-</script> 
+  if (newStore.infos.prev !== null) {
+    currentPage.value -= 1;
+  }
+  newStore.fetchCharacters(infos.filters.value, currentPage.value);
+};
+</script>
 
 <style scoped>
-
 .mainTitle {
   margin-top: 5%;
   margin-bottom: 10%;
@@ -88,6 +84,4 @@ const goToPrevPage = () => {
   margin-bottom: 5%;
   height: 20px;
 }
-
 </style>
-
