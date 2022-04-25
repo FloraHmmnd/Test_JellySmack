@@ -1,5 +1,5 @@
 <template>
-  <div class="mainContainer">
+  <div class="searchContainer">
     <div class="searchWrapper">
       <input
         id="searchInput"
@@ -70,10 +70,9 @@ const removeAllFilters = () => {
 </script>
 
 <style scoped>
-.mainContainer {
+.searchContainer {
   display: flex;
   align-items: center;
-  margin-left: 60px;
 }
 .clear {
   border-radius: 30px;
@@ -84,18 +83,17 @@ const removeAllFilters = () => {
   align-items: center;
   height: 20px;
   size: 100%;
-  margin-right: 10px
+  margin-right: 10px;
+  min-width: 280px
 }
 
 #searchInput {
-  font-family: "Russo One";
+  font-family: "Russo One";   
   padding: 10px;
   border-width: 5px;
   border-color: rgb(61, 61, 61);
   font-size: 15px;
   size: 100%;
-  /* border-top-left-radius: 30px 30px;
-  border-bottom-left-radius: 30px 30px; */
   border-radius: 30px 30px 30px 30px;
 }
 
@@ -103,9 +101,6 @@ const removeAllFilters = () => {
     border-radius: 30px 30px 30px 30px;
     margin-left: 10px;
     margin-right: 10px;
-
-  /* border-top-right-radius: 30px 30px;
-  border-bottom-right-radius: 30px 30px; */
 }
 
 button {

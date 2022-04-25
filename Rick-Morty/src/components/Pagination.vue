@@ -33,6 +33,7 @@ const prevPageButton = () => {
 .wrapperPages {
 display: flex;
 align-items: center;
+min-width: 250px;
 }
 
 .pageButton{

@@ -70,11 +70,7 @@ const goToPrevPage = () => {
 <style scoped>
 .mainContainer{
     margin-right: 5%;
-    margin-left: 5%;  
-    margin-bottom: 5%;
-
-
-
+    margin-left: 5%;
 }
 .mainTitle {
   margin-top: 5%;
@@ -98,8 +94,8 @@ const goToPrevPage = () => {
   align-items: center;
   margin-bottom: 10%;
   height: 30%;
-  width: 100%;
-  
-
+  width: 90%;
+  margin-right: 5%;
+  margin-left: 5%;
 }
 </style>
