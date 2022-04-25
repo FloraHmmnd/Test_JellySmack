@@ -6,4 +6,11 @@ export const fetchCharactersArray = ( page = 1) => {
         return axios.get(url);
 }
 
-export default { fetchCharactersArray };
+
+export const fetchEpisodesArray = () => {
+    let url = `${import.meta.env.VITE_API_URL}/episod`;
+        return axios.get(url);
+}
+
+
+export default { fetchCharactersArray, fetchEpisodesArray };

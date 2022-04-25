@@ -13,6 +13,8 @@
       @loadPreviousPage="goToPrevPage"
     ></Pagination>
     <button @click="increment">+</button>
+    <button @click="decrement">-</button>
+
     <p>{{currentPageQuery}}</p>
   </div>
   <ListOfCharacters></ListOfCharacters>
@@ -24,7 +26,7 @@ import Filters from "@/components/Filters.vue";
 import Pagination from "@/components/Pagination.vue";
 import useNewStore from "@/store/newStore";
 import { onBeforeMount, ref, reactive, computed } from "vue";
-import { fetchCharactersArray } from "@/service";
+import { fetchCharactersArray, fetchEpisodesArray } from "@/service";
 import { useQuery } from "vue-query";
 
 const newStore = useNewStore();
@@ -36,14 +38,18 @@ const increment = () => {
   console.log('increment')
   currentPageQuery.value += 1
 }
-
+const decrement = () => {
+  currentPageQuery.value -= 1
+}
 const infos = {
   filters: ref(),
 };
 
-  const queryKey = reactive(['charactersArray', currentPageQuery.value ]);
+const {isLoading: isEpisodeLoading, data: episodes, isSuccess, isError} = useQuery(['episodesArray'], async () =>fetchEpisodesArray());
 
-  const {isLoading, data} = useQuery(queryKey, async () => fetchCharactersArray(currentPageQuery.value));
+const enabled = computed(() => isSuccess)
+
+const {isLoading, data} = useQuery(['charactersArray', currentPageQuery], async () => fetchCharactersArray(currentPageQuery.value),{enabled});
 
 // query function
 
