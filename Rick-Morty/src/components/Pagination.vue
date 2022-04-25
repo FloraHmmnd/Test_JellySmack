@@ -1,7 +1,9 @@
 <template>
   <div class="wrapperPages">
-    <button id="goToPrevPage" @click="prevPageButton">PREV</button>
-    <button id="goToNextPage" @click="nextPageButton">NEXT</button>
+    <div class="pageButton">
+      <button class="changePageButton" @click="prevPageButton">PREV</button>
+      <button class="changePageButton" @click="nextPageButton">NEXT</button>
+    </div>  
     <p>{{ currentPage }} / {{ newStore.totalPages }}</p>
   </div>
 </template>
@@ -28,6 +30,15 @@ const prevPageButton = () => {
 </script>
 
 <style scoped>
+.wrapperPages {
+display: flex;
+align-items: center;
+}
+
+.pageButton{
+  margin-right: 10px;
+}
+
 button {
   padding: 10px;
   text-align: center;
@@ -45,13 +56,12 @@ button {
   cursor: pointer;
 }
 
-#goToFirstPage {
-  border-top-left-radius: 30px 30px;
-  border-bottom-left-radius: 30px 30px;
+.changePageButton {
+  
+  border-radius: 30px 30px 30px 30px;
+      margin-left : 10px
+
 }
 
-#goToLastPage {
-  border-top-right-radius: 30px 30px;
-  border-bottom-right-radius: 30px 30px;
-}
+
 </style>

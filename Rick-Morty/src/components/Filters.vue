@@ -73,15 +73,18 @@ const removeAllFilters = () => {
 .mainContainer {
   display: flex;
   align-items: center;
+  margin-left: 60px;
 }
 .clear {
   border-radius: 30px;
+  margin-left: 10px
 }
 #searchWrapper {
   display: flex;
   align-items: center;
   height: 20px;
   size: 100%;
+  margin-right: 10px
 }
 
 #searchInput {
@@ -91,13 +94,18 @@ const removeAllFilters = () => {
   border-color: rgb(61, 61, 61);
   font-size: 15px;
   size: 100%;
-  border-top-left-radius: 30px 30px;
-  border-bottom-left-radius: 30px 30px;
+  /* border-top-left-radius: 30px 30px;
+  border-bottom-left-radius: 30px 30px; */
+  border-radius: 30px 30px 30px 30px;
 }
 
 #search {
-  border-top-right-radius: 30px 30px;
-  border-bottom-right-radius: 30px 30px;
+    border-radius: 30px 30px 30px 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+
+  /* border-top-right-radius: 30px 30px;
+  border-bottom-right-radius: 30px 30px; */
 }
 
 button {
@@ -118,9 +126,22 @@ button {
 }
 form > label {
   font-size: 20px;
+      /* margin-left: 10px;
+            margin-right: 10px; */
+
+
 }
 
 form > input {
   cursor: pointer;
+    /* margin-right: 5px;
+          margin-left: 10px; */
+
+
+}
+
+.filterWrapper{
+  display: flex;
+
 }
 </style>

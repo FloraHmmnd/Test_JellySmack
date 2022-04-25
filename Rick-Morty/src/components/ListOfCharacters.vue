@@ -29,8 +29,7 @@ const newStore = useNewStore();
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-items: center;
-  margin-left: 3%;
-  margin-right: 3%;
-  grid-row-gap: 10px;
+  grid-row-gap: 5%;
+  margin-bottom: 20px;
 }
 </style>

@@ -2,6 +2,7 @@
   <div class="home">
     <h1 class="mainTitle">RICK AND MORTY X JELLYSMACK</h1>
   </div>
+<div class="mainContainer">
   <div class="userPreferences">
     <Filters
       @searchCharacter="searchBarHandler"
@@ -13,7 +14,12 @@
       @loadPreviousPage="goToPrevPage"
     ></Pagination>
   </div>
-  <ListOfCharacters></ListOfCharacters>
+  <div class="characters">
+      <ListOfCharacters></ListOfCharacters>
+
+  </div>
+</div>
+  
 </template>
 
 <script setup>
@@ -62,10 +68,19 @@ const goToPrevPage = () => {
 </script>
 
 <style scoped>
+.mainContainer{
+    margin-right: 5%;
+    margin-left: 5%;  
+    margin-bottom: 5%;
+
+
+
+}
 .mainTitle {
   margin-top: 5%;
+  width: 100%;
   margin-bottom: 10%;
-  font-size: 5em;
+  font-size: 6em;
   background: linear-gradient(
     90deg,
     rgba(131, 58, 180, 1) 0%,
@@ -79,9 +94,12 @@ const goToPrevPage = () => {
 
 .userPreferences {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 5%;
-  height: 20px;
+  margin-bottom: 10%;
+  height: 30%;
+  width: 100%;
+  
+
 }
 </style>

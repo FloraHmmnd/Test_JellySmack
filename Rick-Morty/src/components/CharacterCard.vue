@@ -16,7 +16,8 @@ defineProps({
 
 <style scoped>
 img {
-  width: 60%;
+  width: 180px;
+  height: 180px;
   border-color: rgb(41, 41, 43);
   border-style: solid;
   border-width: 10px;
