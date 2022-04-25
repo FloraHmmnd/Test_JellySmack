@@ -12,6 +12,8 @@
       @loadNextPage="goToNextPage"
       @loadPreviousPage="goToPrevPage"
     ></Pagination>
+    <button @click="increment">+</button>
+    <p>{{currentPageQuery}}</p>
   </div>
   <ListOfCharacters></ListOfCharacters>
 </template>
@@ -21,14 +23,29 @@ import ListOfCharacters from "@/components/ListOfCharacters.vue";
 import Filters from "@/components/Filters.vue";
 import Pagination from "@/components/Pagination.vue";
 import useNewStore from "@/store/newStore";
-import { onBeforeMount, ref } from "vue";
+import { onBeforeMount, ref, reactive, computed } from "vue";
+import { fetchCharactersArray } from "@/service";
+import { useQuery } from "vue-query";
 
 const newStore = useNewStore();
 const currentPage = ref(1);
 
+const currentPageQuery = ref(5)
+ 
+const increment = () => {
+  console.log('increment')
+  currentPageQuery.value += 1
+}
+
 const infos = {
   filters: ref(),
 };
+
+  const queryKey = reactive(['charactersArray', currentPageQuery.value ]);
+
+  const {isLoading, data} = useQuery(queryKey, async () => fetchCharactersArray(currentPageQuery.value));
+
+// query function
 
 onBeforeMount(() => {
   newStore.fetchCharacters(infos);

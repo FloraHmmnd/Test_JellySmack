@@ -1,5 +1,6 @@
 <template>
   <router-view />
+    <VueQueryDevTools />
 </template>
 
 <style>
@@ -19,3 +20,9 @@ body {
   );
 }
 </style>
+
+<script setup>
+import { VueQueryDevTools } from "vue-query/devtools";
+
+
+</script>
