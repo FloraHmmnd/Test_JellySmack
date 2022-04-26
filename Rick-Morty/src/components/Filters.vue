@@ -76,7 +76,7 @@ const removeAllFilters = () => {
 }
 .clear {
   border-radius: 30px;
-  margin-left: 10px
+  margin-left: 10px;
 }
 #searchWrapper {
   display: flex;
@@ -84,11 +84,11 @@ const removeAllFilters = () => {
   height: 20px;
   size: 100%;
   margin-right: 10px;
-  min-width: 280px
+  min-width: 280px;
 }
 
 #searchInput {
-  font-family: "Russo One";   
+  font-family: "Russo One";
   padding: 10px;
   border-width: 5px;
   border-color: rgb(61, 61, 61);
@@ -98,9 +98,9 @@ const removeAllFilters = () => {
 }
 
 #search {
-    border-radius: 30px 30px 30px 30px;
-    margin-left: 10px;
-    margin-right: 10px;
+  border-radius: 30px 30px 30px 30px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 button {
@@ -121,22 +121,17 @@ button {
 }
 form > label {
   font-size: 20px;
-      /* margin-left: 10px;
+  /* margin-left: 10px;
             margin-right: 10px; */
-
-
 }
 
 form > input {
   cursor: pointer;
-    /* margin-right: 5px;
+  /* margin-right: 5px;
           margin-left: 10px; */
-
-
 }
 
-.filterWrapper{
+.filterWrapper {
   display: flex;
-
 }
 </style>
