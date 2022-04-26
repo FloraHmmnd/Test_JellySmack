@@ -46,6 +46,7 @@ onBeforeMount(() => {
 
 <style>
 .titleCharacter {
+  word-wrap:break-word;
   font-size: 5em;
   background: radial-gradient(
     circle,

@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 
+
+
 export default defineStore({
   id: "newStore",
   state: () => ({
@@ -8,6 +10,7 @@ export default defineStore({
     characters: [],
     currentCharacter: {},
     totalPages: 0,
+    noResults: false
   }),
 
   actions: {
@@ -27,6 +30,9 @@ export default defineStore({
         this.characters = response.data.results;
       } catch (error) {
         console.error("fetch characters error", error);
+      } finally {
+        this.noResults = true
+
       }
     },
 

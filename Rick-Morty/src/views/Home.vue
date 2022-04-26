@@ -14,10 +14,8 @@
       @loadPreviousPage="goToPrevPage"
     ></Pagination>
   </div>
-  <div class="characters">
-      <ListOfCharacters></ListOfCharacters>
-
-  </div>
+  <NotFound v-if='isEmptyCharacters'></NotFound>
+  <ListOfCharacters v-else ></ListOfCharacters>
 </div>
   
 </template>
@@ -26,12 +24,17 @@
 import ListOfCharacters from "@/components/ListOfCharacters.vue";
 import Filters from "@/components/Filters.vue";
 import Pagination from "@/components/Pagination.vue";
+import NotFound from "@/components/NotFound.vue"
 import useNewStore from "@/store/newStore";
-import { onBeforeMount, ref } from "vue";
+import { onBeforeMount, ref, computed } from "vue";
+import { useRouter } from "vue-router";
+
 
 const newStore = useNewStore();
 const currentPage = ref(1);
-
+const router = useRouter;
+const noResults = newStore.noResults;
+const isEmptyCharacters = computed(() => newStore.characters.length <= 0)
 const infos = {
   filters: ref(),
 };
@@ -43,12 +46,14 @@ onBeforeMount(() => {
 const searchBarHandler = (event) => {
   currentPage.value = 1;
   infos.filters.value = event;
+
   newStore.fetchCharacters(event, currentPage.value);
 };
 
 const clearButtonHandler = () => {
   currentPage.value = 1;
   infos.filters.value = undefined;
+
   newStore.fetchCharacters(infos.filters.value);
 };
 
@@ -73,10 +78,11 @@ const goToPrevPage = () => {
     margin-left: 5%;
 }
 .mainTitle {
+  word-wrap:break-word;
   margin-top: 5%;
   width: 100%;
   margin-bottom: 10%;
-  font-size: 6em;
+  font-size: 5em;
   background: linear-gradient(
     90deg,
     rgba(131, 58, 180, 1) 0%,
@@ -94,8 +100,12 @@ const goToPrevPage = () => {
   align-items: center;
   margin-bottom: 10%;
   height: 30%;
-  width: 90%;
-  margin-right: 5%;
-  margin-left: 5%;
+  width: 100%; 
+}
+
+@media screen and (max-width: 955px){
+  .userPreferences {
+    flex-direction: column;
+  }
 }
 </style>

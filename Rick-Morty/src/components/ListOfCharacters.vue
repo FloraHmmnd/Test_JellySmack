@@ -27,9 +27,10 @@ const newStore = useNewStore();
 <style scoped>
 .wrapperCharacters {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   justify-items: center;
-  grid-row-gap: 5%;
+  row-gap: 7%;
+  column-gap: 7%;
   margin-bottom: 20px;
 }
 </style>

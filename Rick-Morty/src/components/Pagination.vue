@@ -2,9 +2,10 @@
   <div class="wrapperPages">
     <div class="pageButton">
       <button class="changePageButton" @click="prevPageButton">PREV</button>
+       <p class="countPages">{{ currentPage }} / {{ newStore.totalPages }}</p>
       <button class="changePageButton" @click="nextPageButton">NEXT</button>
     </div>  
-    <p>{{ currentPage }} / {{ newStore.totalPages }}</p>
+   
   </div>
 </template>
 
@@ -33,15 +34,20 @@ const prevPageButton = () => {
 .wrapperPages {
 display: flex;
 align-items: center;
-min-width: 250px;
 }
 
 .pageButton{
   margin-right: 10px;
+    display: flex;
+
+}
+
+.countPages{
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 button {
-  padding: 10px;
   text-align: center;
   background: radial-gradient(
     circle,
@@ -58,9 +64,7 @@ button {
 }
 
 .changePageButton {
-  
   border-radius: 30px 30px 30px 30px;
-      margin-left : 10px
 
 }
 
