@@ -2,8 +2,8 @@
   <div class="searchContainer">
     <div class="searchWrapper">
       <input
-        class="searchInput"
         v-model="searchedCharacter"
+        class="searchInput"
         type="text"
         placeholder="Search Rick..."
         @keyup.enter="applySearchAndFilters"
@@ -66,7 +66,7 @@ const applySearchAndFilters = () => {
 const removeAllFilters = () => {
   emits("removeFiltersAndSearch");
   status.value = null;
-  searchedCharacter.value = null
+  searchedCharacter.value = null;
 };
 </script>
 
@@ -76,19 +76,20 @@ const removeAllFilters = () => {
   align-items: center;
 }
 
-@media screen and (max-width: 955px){
-  .searchContainer{
+@media screen and (max-width: 955px) {
+  .searchContainer {
     flex-direction: column;
-    margin-bottom: 5%;  }
+    margin-bottom: 5%;
+  }
 }
 .clear {
   border-radius: 30px;
   margin-left: 10px;
 }
-@media screen and (max-width: 955px){
-.searchWrapper {
-  
-  margin-bottom: 10%;}
+@media screen and (max-width: 955px) {
+  .searchWrapper {
+    margin-bottom: 10%;
+  }
 }
 
 .searchInput {
@@ -125,12 +126,10 @@ button {
 }
 form > label {
   font-size: 20px;
-
 }
 
 form > input {
   cursor: pointer;
-
 }
 
 form {
@@ -142,8 +141,8 @@ form {
   display: flex;
 }
 
-@media screen and (max-width: 955px){
-  .filterWrapper{
+@media screen and (max-width: 955px) {
+  .filterWrapper {
     margin-bottom: 5%;
   }
 }

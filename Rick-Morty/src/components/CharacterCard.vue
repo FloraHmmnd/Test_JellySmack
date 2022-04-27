@@ -15,8 +15,7 @@ defineProps({
 </script>
 
 <style scoped>
-
-.characterCardContainer{
+.characterCardContainer {
   position: relative;
   width: 100%;
   height: 100%;
@@ -25,7 +24,7 @@ defineProps({
 }
 
 .imgCharacter {
-  display: block;      
+  display: block;
   width: 100%;
   border-color: rgb(41, 41, 43);
   border-style: solid;
@@ -33,9 +32,8 @@ defineProps({
   border-radius: 50%;
 }
 
-
 .characterInfos {
-background: linear-gradient(
+  background: linear-gradient(
     90deg,
     rgba(131, 58, 180, 1) 0%,
     rgba(253, 29, 29, 1) 50%,
@@ -51,14 +49,13 @@ background: linear-gradient(
   display: flex;
   justify-content: center;
   align-items: center;
-  }
-
-.characterCardContainer:hover> .characterInfos {
+}
+.characterCardContainer:hover > .characterInfos {
   opacity: 1;
-  transition: 200ms ease-in-out
+  transition: 200ms ease-in-out;
 }
 
-.characterCardContainer:hover> .imgCharacter{
+.characterCardContainer:hover > .imgCharacter {
   filter: grayscale(90%);
 }
 </style>

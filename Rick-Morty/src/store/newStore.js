@@ -1,8 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import router from "../router";
-import { useRouter } from "vue-router";
-
 
 export default defineStore({
   id: "newStore",
@@ -11,7 +9,7 @@ export default defineStore({
     characters: [],
     currentCharacter: {},
     totalPages: 0,
-    isResponse: false
+    isResponse: false,
   }),
 
   actions: {
@@ -29,12 +27,15 @@ export default defineStore({
         this.infos = response.data.info;
         this.totalPages = response.data.info.pages;
         this.characters = response.data.results;
-        this.isResponse = true
-
+        this.isResponse = true;
+        router.push({
+          name: "Home",
+          query: { page, name: filters.name, status: filters.status },
+        });
       } catch (error) {
-        this.isResponse = false
+        this.isResponse = false;
         console.error("fetch characters error", error);
-      } 
+      }
     },
 
     async fetchCurrentCharacter(id) {
@@ -43,7 +44,7 @@ export default defineStore({
           `${import.meta.env.VITE_API_URL}/character/${id}`
         );
         this.currentCharacter = response.data;
-      } catch {
+      } catch (error) {
         console.error("fetch characters error", error);
       }
     },

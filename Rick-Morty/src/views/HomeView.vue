@@ -2,33 +2,30 @@
   <div class="home">
     <h1 class="mainTitle">RICK AND MORTY X JELLYSMACK</h1>
   </div>
-<div class="mainContainer">
-  <div class="userPreferences">
-    <Filters
-      @searchCharacter="searchBarHandler"
-      @removeFiltersAndSearch="clearButtonHandler"
-    ></Filters>
-    <Pagination
-      :current-page="currentPage"
-      @loadNextPage="goToNextPage"
-      @loadPreviousPage="goToPrevPage"
-    ></Pagination>
+  <div class="mainContainer">
+    <div class="userPreferences">
+      <FiltersComponent
+        @searchCharacter="searchBarHandler"
+        @removeFiltersAndSearch="clearButtonHandler"
+      ></FiltersComponent>
+      <PaginationComponent
+        :current-page="currentPage"
+        @loadNextPage="goToNextPage"
+        @loadPreviousPage="goToPrevPage"
+      ></PaginationComponent>
+    </div>
+    <NotFound v-if="!newStore.isResponse"></NotFound>
+    <ListOfCharacters v-else></ListOfCharacters>
   </div>
-  <NotFound v-if='!newStore.isResponse'></NotFound>
-  <ListOfCharacters v-else ></ListOfCharacters>
-</div>
-  
 </template>
 
 <script setup>
 import ListOfCharacters from "@/components/ListOfCharacters.vue";
-import Filters from "@/components/Filters.vue";
-import Pagination from "@/components/Pagination.vue";
-import NotFound from "@/components/NotFound.vue"
+import FiltersComponent from "@/components/FiltersComponent.vue";
+import PaginationComponent from "@/components/PaginationComponent.vue";
+import NotFound from "@/components/NotFound.vue";
+import { onBeforeMount, ref } from "vue";
 import useNewStore from "@/store/newStore";
-import { onBeforeMount, ref, computed } from "vue";
-import { useRouter } from "vue-router";
-
 
 const newStore = useNewStore();
 const currentPage = ref(1);
@@ -69,12 +66,12 @@ const goToPrevPage = () => {
 </script>
 
 <style scoped>
-.mainContainer{
-    margin-right: 5%;
-    margin-left: 5%;
+.mainContainer {
+  margin-right: 5%;
+  margin-left: 5%;
 }
 .mainTitle {
-  word-wrap:break-word;
+  word-wrap: break-word;
   margin-top: 5%;
   width: 100%;
   margin-bottom: 10%;
@@ -96,10 +93,10 @@ const goToPrevPage = () => {
   align-items: center;
   margin-bottom: 10%;
   height: 30%;
-  width: 100%; 
+  width: 100%;
 }
 
-@media screen and (max-width: 955px){
+@media screen and (max-width: 955px) {
   .userPreferences {
     flex-direction: column;
   }

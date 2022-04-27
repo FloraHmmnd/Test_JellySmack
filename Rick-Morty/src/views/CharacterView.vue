@@ -18,8 +18,10 @@
         >.
       </p>
 
-      <button class="returnList" @click="goBackButton">Go back to my friends</button>
-      
+      <button class="returnList" @click="goBackButton">
+        Go back to my friends
+      </button>
+
       <div><img class="imageCharacter" :src="currentCharacter?.image" /></div>
       <router-view></router-view>
     </div>
@@ -33,7 +35,7 @@ import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
-const router = useRouter()
+const router = useRouter();
 const currentCharacterId = ref(route.params.id);
 const newStore = useNewStore();
 const { currentCharacter } = storeToRefs(newStore);
@@ -43,12 +45,12 @@ onBeforeMount(() => {
   newStore.fetchCurrentCharacter(currentCharacterId.value);
 });
 
-const goBackButton = () => router.go(-1)
+const goBackButton = () => router.go(-1);
 </script>
 
 <style>
 .titleCharacter {
-  word-wrap:break-word;
+  word-wrap: break-word;
   font-size: 5em;
   background: radial-gradient(
     circle,
