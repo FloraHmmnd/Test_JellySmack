@@ -30,7 +30,7 @@ export default defineStore({
         this.isResponse = true;
         router.push({
           name: "Home",
-          query: { page, name: filters.name, status: filters.status },
+          query: { page, status: filters?.status, name: filters?.name },
         });
       } catch (error) {
         this.isResponse = false;
