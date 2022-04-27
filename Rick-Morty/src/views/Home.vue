@@ -14,7 +14,7 @@
       @loadPreviousPage="goToPrevPage"
     ></Pagination>
   </div>
-  <NotFound v-if='isEmptyCharacters'></NotFound>
+  <NotFound v-if='!newStore.isResponse'></NotFound>
   <ListOfCharacters v-else ></ListOfCharacters>
 </div>
   
@@ -32,9 +32,6 @@ import { useRouter } from "vue-router";
 
 const newStore = useNewStore();
 const currentPage = ref(1);
-const router = useRouter;
-const noResults = newStore.noResults;
-const isEmptyCharacters = computed(() => newStore.characters.length <= 0)
 const infos = {
   filters: ref(),
 };
@@ -46,7 +43,6 @@ onBeforeMount(() => {
 const searchBarHandler = (event) => {
   currentPage.value = 1;
   infos.filters.value = event;
-
   newStore.fetchCharacters(event, currentPage.value);
 };
 

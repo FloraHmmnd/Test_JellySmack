@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-
+import router from "../router";
+import { useRouter } from "vue-router";
 
 
 export default defineStore({
@@ -10,7 +11,7 @@ export default defineStore({
     characters: [],
     currentCharacter: {},
     totalPages: 0,
-    noResults: false
+    isResponse: false
   }),
 
   actions: {
@@ -28,12 +29,12 @@ export default defineStore({
         this.infos = response.data.info;
         this.totalPages = response.data.info.pages;
         this.characters = response.data.results;
-      } catch (error) {
-        console.error("fetch characters error", error);
-      } finally {
-        this.noResults = true
+        this.isResponse = true
 
-      }
+      } catch (error) {
+        this.isResponse = false
+        console.error("fetch characters error", error);
+      } 
     },
 
     async fetchCurrentCharacter(id) {

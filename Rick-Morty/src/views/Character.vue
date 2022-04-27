@@ -18,9 +18,8 @@
         >.
       </p>
 
-      <router-link :to="'/characters'"
-        ><button class="returnList">Go back to my friends</button></router-link
-      >
+      <button class="returnList" @click="goBackButton">Go back to my friends</button>
+      
       <div><img class="imageCharacter" :src="currentCharacter?.image" /></div>
       <router-view></router-view>
     </div>
@@ -31,9 +30,10 @@
 import useNewStore from "@/store/newStore";
 import { onBeforeMount, ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
+const router = useRouter()
 const currentCharacterId = ref(route.params.id);
 const newStore = useNewStore();
 const { currentCharacter } = storeToRefs(newStore);
@@ -42,6 +42,8 @@ onBeforeMount(() => {
   newStore.currentCharacter = {};
   newStore.fetchCurrentCharacter(currentCharacterId.value);
 });
+
+const goBackButton = () => router.go(-1)
 </script>
 
 <style>
