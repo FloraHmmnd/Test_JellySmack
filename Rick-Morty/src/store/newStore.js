@@ -28,13 +28,14 @@ export default defineStore({
         this.totalPages = response.data.info.pages;
         this.characters = response.data.results;
         this.isResponse = true;
+      } catch (error) {
+        this.isResponse = false;
+        console.error("fetch characters error", error);
+      } finally {
         router.push({
           name: "Home",
           query: { page, status: filters?.status, name: filters?.name },
         });
-      } catch (error) {
-        this.isResponse = false;
-        console.error("fetch characters error", error);
       }
     },
 
