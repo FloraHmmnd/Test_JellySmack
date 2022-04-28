@@ -1,16 +1,13 @@
 import axios from "axios";
 
 
-export const fetchCharactersArray = ( page = 1) => {
+export const fetchCharactersArray = async( page = 1) => {
     let url = `${import.meta.env.VITE_API_URL}/character/?page=${page}`;
-        return axios.get(url);
+    let response = await axios.get(url);
+    let resultats = { characters : response.data.results}
+    console.log(resultats)
+return resultats
 }
 
 
-export const fetchEpisodesArray = () => {
-    let url = `${import.meta.env.VITE_API_URL}/episod`;
-        return axios.get(url);
-}
-
-
-export default { fetchCharactersArray, fetchEpisodesArray };
+export default { fetchCharactersArray };

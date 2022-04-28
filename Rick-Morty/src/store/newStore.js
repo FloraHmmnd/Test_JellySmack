@@ -36,7 +36,7 @@ export default defineStore({
           `${import.meta.env.VITE_API_URL}/character/${id}`
         );
         this.currentCharacter = response.data;
-      } catch {
+      } catch (error) {
         console.error("fetch characters error", error);
       }
     },

@@ -15,9 +15,18 @@
     <button @click="increment">+</button>
     <button @click="decrement">-</button>
 
-    <p>{{currentPageQuery}}</p>
+    <p>{{ currentPageQuery }}</p>
+  </div>
+  <div class="test-vue-query">
+    <div v-if="isLoading">it's Loading</div>
+    <div v-else-if="data">
+      <div v-for="character in data.characters" :key="character.id">
+        <div>{{character.name}}</div>
+      </div>
+    </div>
   </div>
   <ListOfCharacters></ListOfCharacters>
+  
 </template>
 
 <script setup>
@@ -25,31 +34,29 @@ import ListOfCharacters from "@/components/ListOfCharacters.vue";
 import Filters from "@/components/Filters.vue";
 import Pagination from "@/components/Pagination.vue";
 import useNewStore from "@/store/newStore";
-import { onBeforeMount, ref, reactive, computed } from "vue";
-import { fetchCharactersArray, fetchEpisodesArray } from "@/service";
+import { onBeforeMount, ref, computed } from "vue";
+import { fetchCharactersArray } from "@/service";
 import { useQuery } from "vue-query";
 
 const newStore = useNewStore();
 const currentPage = ref(1);
 
-const currentPageQuery = ref(5)
- 
+const currentPageQuery = ref(5);
+
 const increment = () => {
-  console.log('increment')
-  currentPageQuery.value += 1
-}
+  console.log("increment");
+  currentPageQuery.value += 1;
+};
 const decrement = () => {
-  currentPageQuery.value -= 1
-}
+  currentPageQuery.value -= 1;
+};
 const infos = {
   filters: ref(),
 };
 
-const {isLoading: isEpisodeLoading, data: episodes, isSuccess, isError} = useQuery(['episodesArray'], async () =>fetchEpisodesArray());
+const {isLoading,data,isSuccess,isError,} = useQuery(["fetchCharactersArray", currentPageQuery],() => fetchCharactersArray(currentPageQuery.value));
 
-const enabled = computed(() => isSuccess)
 
-const {isLoading, data} = useQuery(['charactersArray', currentPageQuery], async () => fetchCharactersArray(currentPageQuery.value),{enabled});
 
 // query function
 
