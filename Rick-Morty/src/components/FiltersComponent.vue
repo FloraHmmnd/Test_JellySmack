@@ -12,38 +12,12 @@
     </div>
 
     <div class="filterWrapper">
-      <form>
-        <input
-          id="alive"
-          v-model="status"
-          type="radio"
-          name="alive"
-          value="alive"
-          @change="applySearchAndFilters"
-        />
-        <label for="alive">Alive</label>
-
-        <input
-          id="dead"
-          v-model="status"
-          type="radio"
-          name="dead"
-          value="dead"
-          @change="applySearchAndFilters"
-        />
-        <label for="dead">Dead</label>
-
-        <input
-          id="unknown"
-          v-model="status"
-          type="radio"
-          name="unknown"
-          value="unknown"
-          @change="applySearchAndFilters"
-        />
-        <label for="unknown">Unknown</label>
+      <form v-for="categorie in categories" :key="categorie.id">
+        <input :id="categorie.id" v-model="status" type="radio" :name="categorie.value" :value="categorie.value" @change="applySearchAndFilters"/>
+        <label :for="categorie.id">{{ categorie.name }}</label>
       </form>
     </div>
+
     <div>
       <button class="clear" @click="removeAllFilters">CLEAR</button>
     </div>
@@ -52,9 +26,15 @@
 
 <script setup>
 import { ref } from "vue";
-
+const categories = [
+  {id : 0, name: "Alive", value: "alive"},
+  {id : 1, name: "Unknown", value: "unknown"},
+  {id : 2, name: "Dead", value: "dead"}
+]
 const status = ref();
 const searchedCharacter = ref();
+
+  
 
 const emits = defineEmits(["searchCharacter", "removeFiltersAndSearch"]);
 

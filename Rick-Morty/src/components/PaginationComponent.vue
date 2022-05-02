@@ -2,7 +2,7 @@
   <div class="wrapperPages">
     <div class="pageButton">
       <button class="changePageButton" @click="prevPageButton">PREV</button>
-      <p class="countPages">{{ currentPage }} / {{ newStore.totalPages }}</p>
+      <p class="countPages">{{ currentPage }} / {{ store.totalPages }}</p>
       <button class="changePageButton" @click="nextPageButton">NEXT</button>
     </div>
   </div>
@@ -10,9 +10,9 @@
 
 <script setup>
 import { ref } from "vue";
-import useNewStore from "@/store/newStore";
+import useStore from "@/store/store";
 
-const newStore = useNewStore();
+const store = useStore();
 
 defineProps({
   currentPage: ref(0),

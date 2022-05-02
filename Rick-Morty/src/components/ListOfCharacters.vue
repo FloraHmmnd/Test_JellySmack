@@ -1,6 +1,6 @@
 <template>
   <div class="wrapperCharacters">
-    <div v-for="character in newStore.characters" :key="character.id">
+    <div v-for="character in store.characters" :key="character.id">
       <div class="links">
         <router-link
           style="text-decoration: none; color: inherit"
@@ -18,10 +18,10 @@
 </template>
 
 <script setup>
-import useNewStore from "@/store/newStore";
+import useStore from "@/store/store";
 import CharacterCard from "./CharacterCard.vue";
 
-const newStore = useNewStore();
+const store = useStore();
 </script>
 
 <style scoped>

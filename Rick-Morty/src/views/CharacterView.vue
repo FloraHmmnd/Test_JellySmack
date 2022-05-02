@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-import useNewStore from "@/store/newStore";
+import useStore from "@/store/Store";
 import { onBeforeMount, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
@@ -37,12 +37,12 @@ import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const router = useRouter();
 const currentCharacterId = ref(route.params.id);
-const newStore = useNewStore();
-const { currentCharacter } = storeToRefs(newStore);
+const store = useStore();
+const { currentCharacter } = storeToRefs(store);
 
 onBeforeMount(() => {
-  newStore.currentCharacter = {};
-  newStore.fetchCurrentCharacter(currentCharacterId.value);
+  store.currentCharacter = {};
+  store.fetchCurrentCharacter(currentCharacterId.value);
 });
 
 const goBackButton = () => router.go(-1);

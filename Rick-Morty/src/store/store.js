@@ -3,7 +3,7 @@ import axios from "axios";
 import router from "../router";
 
 export default defineStore({
-  id: "newStore",
+  id: "store",
   state: () => ({
     infos: [],
     characters: [],

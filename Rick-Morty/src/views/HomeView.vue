@@ -5,8 +5,8 @@
   <div class="mainContainer">
     <div class="userPreferences">
       <FiltersComponent
-        @searchCharacter="searchBarHandler"
-        @removeFiltersAndSearch="clearButtonHandler"
+        @searchCharacter="search"
+        @removeFiltersAndSearch="search(null)"
       ></FiltersComponent>
       <PaginationComponent
         :current-page="currentPage"
@@ -14,7 +14,7 @@
         @loadPreviousPage="goToPrevPage"
       ></PaginationComponent>
     </div>
-    <NotFound v-if="!newStore.isResponse"></NotFound>
+    <NotFound v-if="!store.isResponse"></NotFound>
     <ListOfCharacters v-else></ListOfCharacters>
   </div>
 </template>
@@ -25,43 +25,40 @@ import FiltersComponent from "@/components/FiltersComponent.vue";
 import PaginationComponent from "@/components/PaginationComponent.vue";
 import NotFound from "@/components/NotFound.vue";
 import { onBeforeMount, ref } from "vue";
-import useNewStore from "@/store/newStore";
+import useStore from "@/store/store";
+import {useRoute} from 'vue-router';
 
-const newStore = useNewStore();
+const store = useStore();
 const currentPage = ref(1);
-const infos = {
-  filters: ref(),
-};
+const filters = ref({});
+
+const route = useRoute()
 
 onBeforeMount(() => {
-  newStore.fetchCharacters(infos);
+Object.keys(route.query).forEach(routeKey => {
+  filters.value[routeKey] = route.query[routeKey];
+});
+ store.fetchCharacters(filters.value, currentPage.value);
 });
 
-const searchBarHandler = (event) => {
+const search = (payload) => {
   currentPage.value = 1;
-  infos.filters.value = event;
-  newStore.fetchCharacters(event, currentPage.value);
-};
-
-const clearButtonHandler = () => {
-  currentPage.value = 1;
-  infos.filters.value = undefined;
-
-  newStore.fetchCharacters(infos.filters.value);
+  filters.value = payload;
+  store.fetchCharacters(filters.value);
 };
 
 const goToNextPage = () => {
-  if (newStore.totalPages !== currentPage.value) {
+  if (store.totalPages !== currentPage.value) {
     currentPage.value += 1;
   }
-  newStore.fetchCharacters(infos.filters.value, currentPage.value);
+  store.fetchCharacters(filters.value, currentPage.value);
 };
 
 const goToPrevPage = () => {
-  if (newStore.infos.prev !== null) {
+  if (store.infos.prev !== null) {
     currentPage.value -= 1;
   }
-  newStore.fetchCharacters(infos.filters.value, currentPage.value);
+  store.fetchCharacters(filters.value, currentPage.value);
 };
 </script>
 
