@@ -12,6 +12,7 @@
     "dotenv": "^16.0.0",
     "pinia": "^2.0.13",
     "vue": "^3.2.31",
+    "vue-query": "^1.22.3",
     "vue-router": "^4.0.14"
   },
   "devDependencies": {

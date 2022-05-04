@@ -1,10 +1,8 @@
 <template>
   <div class="wrapperPages">
-    <div class="pageButton">
-      <button class="changePageButton" @click="prevPageButton">PREV</button>
-      <p class="countPages">{{ currentPage }} / {{ store.totalPages }}</p>
-      <button class="changePageButton" @click="nextPageButton">NEXT</button>
-    </div>
+    <button id="goToPrevPage" @click="prevPageButton">PREV</button>
+    <button id="goToNextPage" @click="nextPageButton">NEXT</button>
+    <p>{{ currentPage }} / {{ totalPages }}</p>
   </div>
 </template>
 
@@ -16,6 +14,7 @@ const store = useStore();
 
 defineProps({
   currentPage: ref(0),
+  totalPages : ref(0)
 });
 
 const emits = defineEmits(["loadNextPage", "loadPreviousPage"]);

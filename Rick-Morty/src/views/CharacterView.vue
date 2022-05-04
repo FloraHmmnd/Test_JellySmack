@@ -1,28 +1,29 @@
 <template>
+
   <div class="wrapperCharacter">
     <h2 class="titleCharacter">:-) -- Hi human ! -- (-:</h2>
-
-    <div v-if="currentCharacter">
+    <div v-if="isLoading">It's loading</div>
+    <div v-if="isError">ERROR</div>
+    <div v-if="data">
       <p class="description">
-        My name is <span>{{ currentCharacter?.name }}</span> and I'm
-        <span>{{ currentCharacter?.status }}</span
+        My name is <span>{{ data?.name }}</span> and I'm
+        <span>{{ data?.status }}</span
         >.<br />
-        I was created the <span>{{ currentCharacter?.created }}</span
+        I was created the <span>{{ data?.created }}</span
         >.<br />
         I'm a
         <span
-          >{{ currentCharacter?.gender }} {{ currentCharacter?.species }}</span
+          >{{ data?.gender }} {{ data?.species }}</span
         >
-        from <span>{{ currentCharacter?.origin?.name }}</span> and you can meet
-        me at <span>{{ currentCharacter?.location?.name }}</span
+        from <span>{{ data?.origin?.name }}</span> and you can meet
+        me at <span>{{ data?.location?.name }}</span
         >.
       </p>
 
-      <button class="returnList" @click="goBackButton">
-        Go back to my friends
-      </button>
-
-      <div><img class="imageCharacter" :src="currentCharacter?.image" /></div>
+      <router-link :to="'/characters'"
+        ><button class="returnList">Go back to my friends</button></router-link
+      >
+      <div><img class="imageCharacter" :src="data?.image" /></div>
       <router-view></router-view>
     </div>
   </div>
@@ -32,20 +33,16 @@
 import useStore from "@/store/Store";
 import { onBeforeMount, ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
+import { fetchCharacter } from "@/service";
+import { useQuery } from "vue-query";
 
 const route = useRoute();
 const router = useRouter();
 const currentCharacterId = ref(route.params.id);
-const store = useStore();
-const { currentCharacter } = storeToRefs(store);
 
-onBeforeMount(() => {
-  store.currentCharacter = {};
-  store.fetchCurrentCharacter(currentCharacterId.value);
-});
+const {isLoading,data,isSuccess,isError,} = useQuery(["character", currentCharacterId],() => fetchCharacter(currentCharacterId.value));
 
-const goBackButton = () => router.go(-1);
 </script>
 
 <style>
