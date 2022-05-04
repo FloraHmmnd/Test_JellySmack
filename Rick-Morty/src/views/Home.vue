@@ -13,10 +13,6 @@
       @loadPreviousPage="goToPrevPage"
       :total-pages="data?.totalPages"
     ></Pagination>
-    <button @click="increment">+</button>
-    <button @click="decrement">-</button>
-
-    <!-- <p>{{ currentPageQuery }}</p> -->
   </div>
   
   <ListOfCharacters :characters="data?.characters"></ListOfCharacters>
@@ -36,51 +32,36 @@ import { useQuery } from "vue-query";
 const newStore = useNewStore();
 const currentPage = ref(1);
 
-//const currentPageQuery = ref(1);
 
-// const increment = () => {
-//   console.log("increment");
-//   currentPageQuery.value += 1;
-// };
-// const decrement = () => {
-//   currentPageQuery.value -= 1;
-// };
 const infos = {
   filters: ref(),
 };
 
-const {isLoading,data,isSuccess,isError,} = useQuery(["fetchCharactersArray", currentPage, infos],() => fetchCharactersArray(currentPage.value, infos.filters.value));
+const {isLoading,data,isSuccess,isError,} = useQuery(["fetchCharactersArray", currentPage, infos], () => fetchCharactersArray(currentPage.value, infos.filters.value));
 
-
-// onBeforeMount(() => {
-//   newStore.fetchCharacters(infos);
-// });
 
 const searchBarHandler = (event) => {
   currentPage.value = 1;
   infos.filters.value = event;
-  newStore.fetchCharacters(event, currentPage.value);
 };
 
 const clearButtonHandler = () => {
   currentPage.value = 1;
   infos.filters.value = undefined;
-  newStore.fetchCharacters(infos.filters.value);
 };
 
 const goToNextPage = () => {
-  //if (newStore.totalPages !== currentPage.value) {
+  if(data.value.totalPages !== currentPage.value) {
     currentPage.value += 1;
   }
-  //newStore.fetchCharacters(infos.filters.value, currentPage.value);
-//};
+};
 
 const goToPrevPage = () => {
-  //if (newStore.infos.prev !== null) {
+  console.log("info:"+ data.value.infos.prev)
+  if (data.value.infos.prev !== null) {
     currentPage.value -= 1;
   }
-  //newStore.fetchCharacters(infos.filters.value, currentPage.value);
-//};
+};
 </script>
 
 <style scoped>

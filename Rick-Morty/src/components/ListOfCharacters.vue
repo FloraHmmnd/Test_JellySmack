@@ -1,8 +1,5 @@
 <template>
-  
-    <div v-if="isLoading">it's Loading</div>
-    <div v-if="isError">ERROR</div>
-    <div v-else-if="characters" class="wrapperCharacters">
+    <div class="wrapperCharacters">
       <div v-for="character in characters" :key="character.id">
       <div class="links">
         <router-link style="text-decoration: none; color: inherit" :to="{ name: 'character', params: { id: character.id } }">
