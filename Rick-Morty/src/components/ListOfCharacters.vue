@@ -1,11 +1,11 @@
 <template>
-  <div class="wrapperCharacters">
-    <div v-for="character in newStore.characters" :key="character.id">
+  
+    <div v-if="isLoading">it's Loading</div>
+    <div v-if="isError">ERROR</div>
+    <div v-else-if="characters" class="wrapperCharacters">
+      <div v-for="character in characters" :key="character.id">
       <div class="links">
-        <router-link
-          style="text-decoration: none; color: inherit"
-          :to="{ name: 'character', params: { id: character.id } }"
-        >
+        <router-link style="text-decoration: none; color: inherit" :to="{ name: 'character', params: { id: character.id } }">
           <CharacterCard
             :name="character.name"
             :status="character.status"
@@ -14,13 +14,22 @@
         </router-link>
       </div>
     </div>
-  </div>
+    </div>  
 </template>
 
 <script setup>
 import useNewStore from "@/store/newStore";
 import CharacterCard from "./CharacterCard.vue";
+import { ref } from "vue";
 
+
+defineProps({
+  characters : {
+    required : true,
+    type : Object
+  }
+  
+})
 const newStore = useNewStore();
 </script>
 
