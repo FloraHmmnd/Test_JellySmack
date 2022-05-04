@@ -2,63 +2,62 @@
   <div class="home">
     <h1 class="mainTitle">RICK AND MORTY X JELLYSMACK</h1>
   </div>
-  <div class="mainContainer">
-    <div class="userPreferences">
-      <FiltersComponent
-        @searchCharacter="search"
-        @removeFiltersAndSearch="search(null)"
-      ></FiltersComponent>
-      <PaginationComponent
-        :current-page="currentPage"
-        @loadNextPage="goToNextPage"
-        @loadPreviousPage="goToPrevPage"
-      ></PaginationComponent>
-    </div>
-    <NotFound v-if="!store.isResponse"></NotFound>
-    <ListOfCharacters v-else></ListOfCharacters>
+  <div class="userPreferences">
+    <FiltersComponent
+      @searchCharacter="search"
+      @removeFiltersAndSearch="search"
+    ></FiltersComponent>
+    <PaginationComponent
+      :current-page="currentPage"
+      :total-pages="data?.totalPages"
+      @loadNextPage="changePage(1)"
+      @loadPreviousPage="changePage(-1)"
+    ></PaginationComponent>
   </div>
+  <SpinnerLoader v-if="isLoading"></SpinnerLoader>
+  <NotFound v-if="isError"></NotFound>
+  <ListOfCharacters :characters="data?.characters"></ListOfCharacters>
 </template>
 
 <script setup>
+import { onBeforeMount, ref } from "vue";
+import { useRoute } from "vue-router";
+import { fetchCharacters } from "@/service";
+import { useQuery } from "vue-query";
 import ListOfCharacters from "@/components/ListOfCharacters.vue";
 import FiltersComponent from "@/components/FiltersComponent.vue";
 import PaginationComponent from "@/components/PaginationComponent.vue";
 import NotFound from "@/components/NotFound.vue";
-import { onBeforeMount, ref } from "vue";
-import useStore from "@/store/store";
-import {useRoute} from 'vue-router';
+import SpinnerLoader from "@/components/SpinnerLoader.vue";
 
-const store = useStore();
 const currentPage = ref(1);
 const filters = ref({});
 
-const route = useRoute()
+const route = useRoute();
 
 onBeforeMount(() => {
-Object.keys(route.query).forEach(routeKey => {
-  filters.value[routeKey] = route.query[routeKey];
+  Object.keys(route.query).forEach((routeKey) => {
+    filters.value[routeKey] = route.query[routeKey];
+  });
 });
- store.fetchCharacters(filters.value, currentPage.value);
-});
+
+const { isLoading, data, isError } = useQuery(
+  ["fetchCharacters", currentPage, filters],
+  () => fetchCharacters(currentPage.value, filters.value)
+);
 
 const search = (payload) => {
   currentPage.value = 1;
   filters.value = payload;
-  store.fetchCharacters(filters.value);
 };
 
-const goToNextPage = () => {
-  if (store.totalPages !== currentPage.value) {
-    currentPage.value += 1;
+const changePage = (page) => {
+  if (page === 1 && data.value.totalPages !== currentPage.value) {
+    currentPage.value += page;
   }
-  store.fetchCharacters(filters.value, currentPage.value);
-};
-
-const goToPrevPage = () => {
-  if (store.infos.prev !== null) {
-    currentPage.value -= 1;
+  if (page === -1 && data.value.infos.prev !== null) {
+    currentPage.value += page;
   }
-  store.fetchCharacters(filters.value, currentPage.value);
 };
 </script>
 

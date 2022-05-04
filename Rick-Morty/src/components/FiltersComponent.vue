@@ -13,7 +13,14 @@
 
     <div class="filterWrapper">
       <form v-for="categorie in categories" :key="categorie.id">
-        <input :id="categorie.id" v-model="status" type="radio" :name="categorie.value" :value="categorie.value" @change="applySearchAndFilters"/>
+        <input
+          :id="categorie.id"
+          v-model="status"
+          type="radio"
+          :name="categorie.value"
+          :value="categorie.value"
+          @change="applySearchAndFilters"
+        />
         <label :for="categorie.id">{{ categorie.name }}</label>
       </form>
     </div>
@@ -26,15 +33,14 @@
 
 <script setup>
 import { ref } from "vue";
+
 const categories = [
-  {id : 0, name: "Alive", value: "alive"},
-  {id : 1, name: "Unknown", value: "unknown"},
-  {id : 2, name: "Dead", value: "dead"}
-]
+  { id: 0, name: "Alive", value: "alive" },
+  { id: 1, name: "Unknown", value: "unknown" },
+  { id: 2, name: "Dead", value: "dead" },
+];
 const status = ref();
 const searchedCharacter = ref();
-
-  
 
 const emits = defineEmits(["searchCharacter", "removeFiltersAndSearch"]);
 

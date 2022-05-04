@@ -1,20 +1,17 @@
 <template>
   <div class="wrapperPages">
-    <button id="goToPrevPage" @click="prevPageButton">PREV</button>
-    <button id="goToNextPage" @click="nextPageButton">NEXT</button>
-    <p>{{ currentPage }} / {{ totalPages }}</p>
+    <button class="pageButton prev" @click="prevPageButton">PREV</button>
+    <p class="countPage">{{ currentPage }} / {{ totalPages }}</p>
+    <button class="pageButton next" @click="nextPageButton">NEXT</button>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import useStore from "@/store/store";
-
-const store = useStore();
 
 defineProps({
   currentPage: ref(0),
-  totalPages : ref(0)
+  totalPages: ref(0),
 });
 
 const emits = defineEmits(["loadNextPage", "loadPreviousPage"]);
@@ -31,20 +28,11 @@ const prevPageButton = () => {
 <style scoped>
 .wrapperPages {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
 }
 
 .pageButton {
-  margin-right: 10px;
-  display: flex;
-}
-
-.countPages {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-button {
+  border-radius: 30px 30px 30px 30px;
   text-align: center;
   background: radial-gradient(
     circle,
@@ -60,7 +48,16 @@ button {
   cursor: pointer;
 }
 
-.changePageButton {
-  border-radius: 30px 30px 30px 30px;
+.countPages {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.prev {
+  margin-right: 10px;
+}
+
+.next {
+  margin-left: 10px;
 }
 </style>

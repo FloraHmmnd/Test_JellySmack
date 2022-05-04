@@ -1,5 +1,5 @@
 <template>
-
+  <SpinnerLoader v-if="isLoading"></SpinnerLoader>
   <div class="wrapperCharacter">
     <h2 class="titleCharacter">:-) -- Hi human ! -- (-:</h2>
     <div v-if="isLoading">It's loading</div>
@@ -12,11 +12,9 @@
         I was created the <span>{{ data?.created }}</span
         >.<br />
         I'm a
-        <span
-          >{{ data?.gender }} {{ data?.species }}</span
-        >
-        from <span>{{ data?.origin?.name }}</span> and you can meet
-        me at <span>{{ data?.location?.name }}</span
+        <span>{{ data?.gender }} {{ data?.species }}</span>
+        from <span>{{ data?.origin?.name }}</span> and you can meet me at
+        <span>{{ data?.location?.name }}</span
         >.
       </p>
 
@@ -30,19 +28,19 @@
 </template>
 
 <script setup>
-import useStore from "@/store/Store";
-import { onBeforeMount, ref } from "vue";
-import { storeToRefs } from "pinia";
+import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { fetchCharacter } from "@/service";
 import { useQuery } from "vue-query";
 
 const route = useRoute();
-const router = useRouter();
+
 const currentCharacterId = ref(route.params.id);
 
-const {isLoading,data,isSuccess,isError,} = useQuery(["character", currentCharacterId],() => fetchCharacter(currentCharacterId.value));
-
+const { isLoading, data, isSuccess, isError } = useQuery(
+  ["character", currentCharacterId],
+  () => fetchCharacter(currentCharacterId.value)
+);
 </script>
 
 <style>
